@@ -5,23 +5,32 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
 import { PlanSelectionModal } from '../components/ui/PlanSelectionModal';
+import { AuthModal } from '../components/ui/AuthModal';
 import { TestimonialsCarousel } from '../components/ui/TestimonialsCarousel';
 import { ShieldCheck, ArrowRight, Star, CheckCircle2, DollarSign, Building2, Home, Store, MapPin, Clock, XCircle, Moon, Sun } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
 
+import { isValidZipCode } from '../utils/validation';
+
 export const HomePage = () => {
     const navigate = useNavigate();
-    const { updateState } = useBooking();
+    const { updateState, resetBooking } = useBooking();
     const [zipCode, setZipCode] = useState('');
+    const [error, setError] = useState('');
 
-    // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState({ title: '', price: '' });
 
     const handleStartBooking = () => {
         if (zipCode) {
-            updateState({ zip: zipCode });
-            navigate('/booking');
+            if (isValidZipCode(zipCode)) {
+                resetBooking();
+                updateState({ zip: zipCode });
+                navigate('/booking');
+            } else {
+                setError('Sorry, we are not in your area of service yet.');
+            }
         }
     };
 
@@ -44,6 +53,11 @@ export const HomePage = () => {
                 onClose={() => setIsModalOpen(false)}
                 planTitle={selectedPlan.title}
                 planPrice={selectedPlan.price}
+            />
+
+            <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
             />
 
             {/* Dark Hero Section */}
@@ -95,6 +109,14 @@ export const HomePage = () => {
                                     <Star size={16} fill="currentColor" />
                                 </div>
                                 <span className="text-sm font-medium text-gray-400">#1 Rated in Phoenix, AZ</span>
+                                <div className="h-4 w-px bg-[#333]"></div>
+                                <span className="text-sm font-bold text-green-500 flex items-center gap-1">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                    </span>
+                                    Available 24/7
+                                </span>
                             </motion.div>
 
                             <motion.h1
@@ -122,11 +144,11 @@ export const HomePage = () => {
                                 transition={{ delay: 0.3 }}
                                 className="flex items-center gap-4"
                             >
-                                <Button size="lg" className="bg-[#18181b]/80 hover:bg-[#27272a] backdrop-blur-sm text-white border border-[#333]" onClick={() => navigate('/booking')}>
-                                    Book Now <ArrowRight className="ml-2" size={18} />
+                                <Button size="lg" variant="secondary" className="backdrop-blur-sm border border-[#333]" onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}>
+                                    See Plans <ArrowRight className="ml-2" size={18} />
                                 </Button>
-                                <Button size="lg" variant="outline" className="backdrop-blur-sm bg-white/5" onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}>
-                                    View Plans
+                                <Button size="lg" variant="outline" className="backdrop-blur-sm bg-white/5" onClick={() => setIsAuthModalOpen(true)}>
+                                    Sign In
                                 </Button>
                             </motion.div>
                         </div>
@@ -136,58 +158,77 @@ export const HomePage = () => {
                             initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4, duration: 0.6 }}
+                            className="relative z-20 perspective-1000"
+                            style={{ transformStyle: 'preserve-3d' }}
                         >
-                            <div className="relative">
-                                <Card className="bg-[#09090b]/80 backdrop-blur-md border-[#333] p-0 shadow-2xl relative overflow-hidden">
-                                    {/* Progress Line */}
-                                    <div className="h-1 w-full bg-[#27272a]">
-                                        <div className="h-full w-1/5 bg-[#ef4444]"></div>
-                                    </div>
-
-                                    <div className="p-8">
-                                        <div className="flex justify-between items-center mb-8">
-                                            <div>
-                                                <h3 className="text-xl font-bold text-white mb-1">Where do you need service?</h3>
-                                            </div>
-                                            <div className="text-sm font-semibold text-[#52525b]">
-                                                Step 1 of 5
-                                            </div>
+                            <motion.div
+                                animate={{ y: [-10, 10, -10] }}
+                                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                            >
+                                <div className="relative">
+                                    <Card className="bg-[#09090b]/80 backdrop-blur-md border-[#333] p-0 shadow-2xl relative overflow-hidden">
+                                        {/* Progress Line */}
+                                        <div className="h-1 w-full bg-[#27272a]">
+                                            <div className="h-full w-1/5 bg-[#ef4444]"></div>
                                         </div>
 
-                                        <div className="space-y-4">
-                                            <label className="text-sm font-medium text-gray-400">Enter your zip code</label>
-                                            <div className="flex gap-4">
-                                                <Input
-                                                    placeholder="85001"
-                                                    className="h-12 text-lg bg-[#18181b] border-[#3f3f46] focus:border-white focus:ring-0"
-                                                    value={zipCode}
-                                                    onChange={(e) => setZipCode(e.target.value)}
-                                                />
-                                                <Button size="lg" className="bg-[#111827] hover:bg-[#1f2937] text-white px-8" onClick={handleStartBooking}>
-                                                    Continue
-                                                </Button>
+                                        <div className="p-8">
+                                            <div className="flex justify-between items-center mb-8">
+                                                <div>
+                                                    <h3 className="text-xl font-bold text-white mb-1">Where do you need service?</h3>
+                                                </div>
+                                                <div className="text-sm font-semibold text-[#52525b]">
+                                                    Step 1 of 5
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <label className="text-sm font-medium text-gray-400">Enter your zip code</label>
+                                                <div className="flex flex-col sm:flex-row gap-4">
+                                                    <Input
+                                                        placeholder="85001"
+                                                        className="h-12 text-lg bg-[#18181b] border-[#3f3f46] focus:border-white focus:ring-0"
+                                                        value={zipCode}
+                                                        onChange={(e) => {
+                                                            setZipCode(e.target.value);
+                                                            setError('');
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter') handleStartBooking();
+                                                        }}
+                                                    />
+                                                    <Button size="lg" variant="accent" className="bg-[#111827] hover:bg-[#1f2937] text-white px-8 md:w-auto w-full" onClick={handleStartBooking}>
+                                                        Book It Now!
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-6">
+                                                {error ? (
+                                                    <p className="text-sm text-red-500 font-medium animate-pulse">
+                                                        {error}
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-sm text-[#ef4444]">
+                                                        Checking availability for Phoenix Metro Area...
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
+                                    </Card>
 
-                                        <div className="mt-6">
-                                            <p className="text-sm text-[#ef4444]">
-                                                Checking availability for Phoenix Metro Area...
-                                            </p>
+                                    {/* Trust Badge */}
+                                    <div className="absolute -bottom-6 -left-6 bg-[#18181b] border border-[#333] p-4 rounded-xl flex items-center gap-3 shadow-xl">
+                                        <div className="bg-green-500/20 p-2 rounded-lg text-green-500">
+                                            <ShieldCheck size={20} />
                                         </div>
-                                    </div>
-                                </Card>
-
-                                {/* Trust Badge */}
-                                <div className="absolute -bottom-6 -left-6 bg-[#18181b] border border-[#333] p-4 rounded-xl flex items-center gap-3 shadow-xl">
-                                    <div className="bg-green-500/20 p-2 rounded-lg text-green-500">
-                                        <ShieldCheck size={20} />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs text-gray-400">Certified & Insured</div>
-                                        <div className="text-sm font-bold text-white">100% Guaranteed</div>
+                                        <div>
+                                            <div className="text-xs text-gray-400">Certified & Insured</div>
+                                            <div className="text-sm font-bold text-white">100% Guaranteed</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
 
                     </div>
@@ -198,28 +239,28 @@ export const HomePage = () => {
             <section className="py-20 bg-white border-t border-gray-100">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-4 gap-8">
-                        <motion.div {...fadeInUp} transition={{ delay: 0.1 }} className="text-center group">
+                        <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.1 }} className="text-center group">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600 transition-all shadow-sm group-hover:scale-110">
                                 <CheckCircle2 size={24} />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-2">Licensed Professionals</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">AZ Licensed, insured, and background-checked technicians.</p>
                         </motion.div>
-                        <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="text-center group">
+                        <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="text-center group">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 transition-all shadow-sm group-hover:scale-110">
                                 <ShieldCheck size={24} fill="currentColor" className="text-blue-600" />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-2">Satisfaction Guarantee</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">If pests return between visits, we'll re-treat for free.</p>
                         </motion.div>
-                        <motion.div {...fadeInUp} transition={{ delay: 0.3 }} className="text-center group">
+                        <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.3 }} className="text-center group">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 transition-all shadow-sm group-hover:scale-110">
                                 <Star size={24} fill="currentColor" className="text-purple-600" />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-2">Family & Pet Safe</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">We use EPA-approved products safe for Phoenix families.</p>
                         </motion.div>
-                        <motion.div {...fadeInUp} transition={{ delay: 0.4 }} className="text-center group">
+                        <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.4 }} className="text-center group">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-yellow-50 border border-yellow-100 flex items-center justify-center text-yellow-600 transition-all shadow-sm group-hover:scale-110">
                                 <DollarSign size={24} fill="currentColor" className="text-yellow-600" />
                             </div>
@@ -312,21 +353,21 @@ export const HomePage = () => {
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-6">
-                        <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-red-500/50 transition-colors">
+                        <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-red-500/50 transition-colors flex flex-col items-center text-center md:items-start md:text-left">
                             <Home className="text-red-500 mb-4" size={32} />
                             <h3 className="text-xl font-bold text-white mb-2">Residential</h3>
                             <p className="text-gray-400 text-sm">
                                 Homes, apartments, and condos. We protect your living space from scorpions, roaches, and ants common in AZ.
                             </p>
                         </Card>
-                        <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-blue-500/50 transition-colors">
+                        <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-blue-500/50 transition-colors flex flex-col items-center text-center md:items-start md:text-left">
                             <Store className="text-blue-500 mb-4" size={32} />
                             <h3 className="text-xl font-bold text-white mb-2">Retail & Food</h3>
                             <p className="text-gray-400 text-sm">
                                 Discrete and effective service for restaurants and shops. Zero-tolerance pest policy to protect your brand.
                             </p>
                         </Card>
-                        <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-purple-500/50 transition-colors">
+                        <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-purple-500/50 transition-colors flex flex-col items-center text-center md:items-start md:text-left">
                             <Building2 className="text-purple-500 mb-4" size={32} />
                             <h3 className="text-xl font-bold text-white mb-2">Commercial</h3>
                             <p className="text-gray-400 text-sm">
@@ -381,22 +422,24 @@ export const HomePage = () => {
                     </div>
 
                     <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        {/* One Time */}
+
+                        {/* Monthly */}
                         <Card
-                            onClick={() => handlePlanClick('One-Time Service', '$299')}
+                            onClick={() => handlePlanClick('Monthly Premium', '$179/month')}
                             hover
-                            className="bg-[#18181b] border-[#27272a] flex flex-col h-full hover:border-gray-600 transition-colors cursor-pointer group"
+                            className="bg-[#18181b] border-[#27272a] h-full flex flex-col hover:border-gray-600 transition-colors cursor-pointer group"
                         >
                             <div className="mb-6">
-                                <h3 className="text-xl font-bold mb-2 text-white">One-Time</h3>
+                                <h3 className="text-xl font-bold mb-2 text-white">Monthly</h3>
                                 <div className="flex items-baseline gap-1">
-                                    <span className="text-4xl font-bold text-white">$299</span>
+                                    <span className="text-4xl font-bold text-white">$179</span>
+                                    <span className="text-gray-500">/month</span>
                                 </div>
-                                <p className="text-gray-500 mt-4 text-sm">Perfect for immediate pest problems. Single treatment with 30-day guarantee.</p>
+                                <p className="text-gray-500 mt-4 text-sm">Maximum protection for severe infestations or commercial food properties.</p>
                             </div>
                             <div className="space-y-4 flex-1">
                                 <div className="h-px bg-[#27272a] my-4"></div>
-                                {['Single comprehensive spray', 'Interior & Exterior', '30-day guarantee', 'No commitment'].map(f => (
+                                {['Monthly treatments', 'Commercial Grade', 'Emergency visits included', 'Documentation provided'].map(f => (
                                     <div key={f} className="text-sm text-gray-300 flex items-center gap-3">
                                         <div className="p-0.5 rounded-full bg-[#27272a]"><CheckCircle2 size={14} /></div>
                                         {f}
@@ -444,23 +487,22 @@ export const HomePage = () => {
                             </Card>
                         </div>
 
-                        {/* Monthly */}
+                        {/* One Time */}
                         <Card
-                            onClick={() => handlePlanClick('Monthly Premium', '$179/month')}
+                            onClick={() => handlePlanClick('One-Time Service', '$299')}
                             hover
-                            className="bg-[#18181b] border-[#27272a] h-full flex flex-col hover:border-gray-600 transition-colors cursor-pointer group"
+                            className="bg-[#18181b] border-[#27272a] flex flex-col h-full hover:border-gray-600 transition-colors cursor-pointer group"
                         >
                             <div className="mb-6">
-                                <h3 className="text-xl font-bold mb-2 text-white">Monthly</h3>
+                                <h3 className="text-xl font-bold mb-2 text-white">One-Time</h3>
                                 <div className="flex items-baseline gap-1">
-                                    <span className="text-4xl font-bold text-white">$179</span>
-                                    <span className="text-gray-500">/month</span>
+                                    <span className="text-4xl font-bold text-white">$299</span>
                                 </div>
-                                <p className="text-gray-500 mt-4 text-sm">Maximum protection for severe infestations or commercial food properties.</p>
+                                <p className="text-gray-500 mt-4 text-sm">Perfect for immediate pest problems. Single treatment with 30-day guarantee.</p>
                             </div>
                             <div className="space-y-4 flex-1">
                                 <div className="h-px bg-[#27272a] my-4"></div>
-                                {['Monthly treatments', 'Commercial Grade', 'Emergency visits included', 'Documentation provided'].map(f => (
+                                {['Single comprehensive spray', 'Interior & Exterior', '30-day guarantee', 'No commitment'].map(f => (
                                     <div key={f} className="text-sm text-gray-300 flex items-center gap-3">
                                         <div className="p-0.5 rounded-full bg-[#27272a]"><CheckCircle2 size={14} /></div>
                                         {f}
@@ -506,6 +548,23 @@ export const HomePage = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Certifications Section */}
+            <section className="py-20 bg-white border-t border-gray-100 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50/50 pointer-events-none"></div>
+                <div className="container mx-auto px-4 text-center relative z-10">
+                    <p className="text-sm text-gray-400 font-bold uppercase tracking-[0.2em] mb-10">Award Winning Service</p>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="flex justify-center items-center"
+                    >
+                        <img src="/src/assets/trust-badges.png" alt="Yelp Angie's List and Top Rated Awards" className="h-20 md:h-32 object-contain drop-shadow-xl hover:scale-105 transition-transform duration-500" />
+                    </motion.div>
                 </div>
             </section>
         </div>

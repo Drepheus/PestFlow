@@ -32,8 +32,8 @@ export const ContactPage = () => {
                                 <div>
                                     <h3 className="text-lg font-bold text-white mb-1">Call Us Anytime</h3>
                                     <p className="text-gray-400 text-sm mb-2">Instant response for emergencies.</p>
-                                    <a href="tel:602-555-0199" className="text-xl font-bold text-white hover:text-red-400 transition-colors">
-                                        (602) 555-0199
+                                    <a href="tel:623-396-5203" className="text-xl font-bold text-white hover:text-red-400 transition-colors">
+                                        (623) 396-5203
                                     </a>
                                 </div>
                             </div>

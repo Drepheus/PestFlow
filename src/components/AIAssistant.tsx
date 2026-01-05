@@ -59,9 +59,9 @@ export const AIAssistant = () => {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-6 right-6 w-14 h-14 bg-red-600 text-white rounded-full shadow-[0_4px_20px_rgba(220,38,38,0.5)] flex items-center justify-center hover:bg-red-700 transition-colors z-50 border border-white/10"
+                        className="fixed bottom-6 right-6 w-12 h-12 bg-red-600 text-white rounded-full shadow-[0_4px_20px_rgba(220,38,38,0.5)] flex items-center justify-center hover:bg-red-700 transition-colors z-50 border border-white/10"
                     >
-                        <MessageSquare size={24} />
+                        <MessageSquare size={20} />
                     </motion.button>
                 )}
             </AnimatePresence>
@@ -132,7 +132,7 @@ export const AIAssistant = () => {
                             <button
                                 onClick={handleSend}
                                 disabled={!input.trim()}
-                                className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+                                className="w-10 h-10 bg-white text-neutral-900 rounded-full flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
                             >
                                 <Send size={18} />
                             </button>

@@ -17,17 +17,17 @@ export const Button: React.FC<ButtonProps> = ({
     const baseStyles = "inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#09090b] disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
-        primary: "bg-white text-black hover:bg-gray-200 focus:ring-white border border-transparent",
+        primary: "bg-white text-neutral-900 hover:bg-gray-100 focus:ring-white border border-transparent font-semibold shadow-sm",
         secondary: "bg-[#27272a] text-white hover:bg-[#3f3f46] focus:ring-gray-500 border border-transparent",
         outline: "bg-transparent text-white border border-[#3f3f46] hover:border-gray-400 focus:ring-white",
         ghost: "bg-transparent text-gray-400 hover:text-white hover:bg-[#27272a] border border-transparent",
-        accent: "bg-[#ef4444] text-white hover:bg-[#dc2626] focus:ring-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] border border-transparent",
+        accent: "bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400 focus:ring-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6)] border border-white/10 relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full hover:after:translate-x-full after:transition-transform after:duration-1000",
     };
 
     const sizes = {
-        sm: "px-3 py-1.5 text-sm",
-        md: "px-6 py-3 text-sm",
-        lg: "px-8 py-4 text-base",
+        sm: "px-3 py-1.5 text-xs md:text-sm",
+        md: "px-4 py-2 text-sm md:px-6 md:py-3 md:text-base",
+        lg: "px-5 py-3 text-sm md:px-8 md:py-4 md:text-lg",
     };
 
     return (

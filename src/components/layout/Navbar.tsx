@@ -39,6 +39,7 @@ export const Navbar = () => {
                             <a href="#plans" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Plans</a>
                             <a href="#how" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">How It Works</a>
                             <a href="#guarantee" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Guarantee</a>
+                            <Link to="/contact" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Contact Us</Link>
                         </>
                     )}
                 </div>
@@ -52,7 +53,7 @@ export const Navbar = () => {
 
                     {!isBooking && (
                         <div className="flex items-center gap-4">
-                            <a href="tel:5555555555" className="text-sm font-semibold text-white hover:text-gray-300 transition-colors">(555) 555-5555</a>
+                            <a href="tel:6233965203" className="text-sm font-semibold text-white hover:text-gray-300 transition-colors">(623) 396-5203</a>
                             <Link to="/booking">
                                 <Button size="sm" variant="primary">Book Now</Button>
                             </Link>

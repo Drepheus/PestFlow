@@ -86,7 +86,7 @@ export const PlanSelectionModal: React.FC<PlanSelectionModalProps> = ({
                                         fullWidth
                                         size="lg"
                                         onClick={handleBookNow}
-                                        className="h-14 text-lg bg-white text-black hover:bg-gray-100"
+                                        className="h-14 text-lg bg-white text-neutral-900 hover:bg-gray-100"
                                     >
                                         Book Now <ArrowRight className="ml-2" size={20} />
                                     </Button>
