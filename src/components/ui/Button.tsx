@@ -21,7 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
         secondary: "bg-[#27272a] text-white hover:bg-[#3f3f46] focus:ring-gray-500 border border-transparent",
         outline: "bg-transparent text-white border border-[#3f3f46] hover:border-gray-400 focus:ring-white",
         ghost: "bg-transparent text-gray-400 hover:text-white hover:bg-[#27272a] border border-transparent",
-        accent: "bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400 focus:ring-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6)] border border-white/10 relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full hover:after:translate-x-full after:transition-transform after:duration-1000",
+        accent: "bg-gradient-to-r from-emerald-600 to-green-600 text-white hover:from-emerald-500 hover:to-green-500 focus:ring-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] border border-white/10 relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full hover:after:translate-x-full after:transition-transform after:duration-1000",
     };
 
     const sizes = {

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../ui/Button';
-import { Bug, Menu, X } from 'lucide-react';
+import { Sparkles, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AuthModal } from '../ui/AuthModal';
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const location = useLocation();
     const isBooking = location.pathname === '/booking';
 
@@ -25,21 +27,20 @@ export const Navbar = () => {
                 >
                     {/* Logo Icon */}
                     <div className="relative">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white shadow-[0_0_15px_rgba(239,68,68,0.4)]">
-                            <Bug size={18} fill="currentColor" />
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white shadow-[0_0_15px_rgba(34,197,94,0.4)]">
+                            <Sparkles size={18} fill="currentColor" />
                         </div>
                     </div>
-                    <span className="font-bold text-xl tracking-tight text-white">PestFlow</span>
+                    <span className="font-bold text-xl tracking-tight text-white">ReadyCleans</span>
                 </Link>
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-8">
                     {!isBooking && (
                         <>
-                            <a href="#plans" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Plans</a>
-                            <a href="#how" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">How It Works</a>
-                            <a href="#guarantee" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Guarantee</a>
-                            <Link to="/contact" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Contact Us</Link>
+                            <a href="/#plans" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Pricing</a>
+                            <a href="/#how" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">How It Works</a>
+                            <Link to="/contact" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Support</Link>
                         </>
                     )}
                 </div>
@@ -48,14 +49,16 @@ export const Navbar = () => {
                     {/* Trust Signal */}
                     <div className="flex items-center gap-2 text-[#22c55e] text-xs font-semibold uppercase tracking-wider">
                         <span className="w-2 h-2 rounded-full bg-[#22c55e] shadow-[0_0_10px_rgba(34,197,94,0.4)]"></span>
-                        Licensed & Insured
+                        Available Tomorrow
                     </div>
 
                     {!isBooking && (
-                        <div className="flex items-center gap-4">
-                            <a href="tel:6233965203" className="text-sm font-semibold text-white hover:text-gray-300 transition-colors">(623) 396-5203</a>
+                        <div className="flex items-center gap-3">
+                            <Button size="sm" variant="ghost" onClick={() => setIsAuthModalOpen(true)}>
+                                Log In
+                            </Button>
                             <Link to="/booking">
-                                <Button size="sm" variant="primary">Book Now</Button>
+                                <Button size="sm" variant="primary" className="shadow-lg shadow-green-500/20">Book Now</Button>
                             </Link>
                         </div>
                     )}
@@ -80,9 +83,8 @@ export const Navbar = () => {
                         className="md:hidden bg-[#18181b] border-b border-[#27272a] overflow-hidden absolute top-[var(--header-height)] left-0 w-full"
                     >
                         <div className="flex flex-col p-6 gap-6">
-                            <Link to="/" className="text-lg font-medium text-gray-300">Plans</Link>
-                            <Link to="/" className="text-lg font-medium text-gray-300">How It Works</Link>
-                            <Link to="/" className="text-lg font-medium text-gray-300">Guarantee</Link>
+                            <a href="/#plans" className="text-lg font-medium text-gray-300">Pricing</a>
+                            <a href="/#how" className="text-lg font-medium text-gray-300">How It Works</a>
                             <Link to="/booking">
                                 <Button fullWidth variant="accent">Book Now</Button>
                             </Link>
@@ -90,6 +92,11 @@ export const Navbar = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
+            />
         </nav>
     );
 };

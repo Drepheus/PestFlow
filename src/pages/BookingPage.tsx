@@ -4,8 +4,8 @@ import { useBooking } from '../context/BookingContext';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
-import { ArrowLeft, Check, Loader2, Calendar as CalendarIcon, CreditCard, Lock, Smartphone } from 'lucide-react';
-import { type PestType, type PropertyType, type PlanType } from '../types';
+import { ArrowLeft, Check, Loader2, CreditCard, Lock, Smartphone, X, Sparkles, Home } from 'lucide-react';
+import { type ServiceType, type UnitSize, type AddOnType, PRICING } from '../types';
 import { isValidZipCode } from '../utils/validation';
 
 // Step Components
@@ -21,14 +21,14 @@ const LocationStep = () => {
             if (isValidZipCode(state.zip)) {
                 nextStep();
             } else {
-                setError('Sorry, we are not in your area of service yet.');
+                setError('Sorry, we are currently only serving the Phoenix Metro area.');
             }
         }
     };
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Where do you need service?</h2>
+            <h2 className="text-2xl font-bold text-white">Where do you need cleaning?</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
                     label="Zip Code"
@@ -37,7 +37,7 @@ const LocationStep = () => {
                         updateState({ zip: e.target.value });
                         setError('');
                     }}
-                    placeholder="12345"
+                    placeholder="85001"
                     required
                 />
                 <div className="space-y-1">
@@ -69,47 +69,51 @@ const LocationStep = () => {
     );
 };
 
-const PestStep = () => {
+const ServiceStep = () => {
     const { state, updateState, nextStep } = useBooking();
 
-    const pests: { id: PestType; label: string; icon: string }[] = [
-        { id: 'general', label: 'General Prevention', icon: '🛡️' },
-        { id: 'ants', label: 'Ants', icon: '🐜' },
-        { id: 'roaches', label: 'Roaches', icon: '🪳' },
-        { id: 'spiders', label: 'Spiders', icon: '🕷️' },
-        { id: 'scorpions', label: 'Scorpions', icon: '🦂' },
-        { id: 'rodents', label: 'Rodents', icon: '🐁' },
-        { id: 'mosquitos', label: 'Mosquitos', icon: '🦟' },
+    const services: { id: ServiceType; label: string; description: string; icon: any }[] = [
+        {
+            id: 'move-out',
+            label: 'Move-Out / End-of-Lease',
+            description: 'Standard inspection-ready clean. Kitchen, bathrooms, floors, baseboards. No trash removal.',
+            icon: Home
+        },
+        {
+            id: 'airbnb',
+            label: 'Airbnb Turnover',
+            description: 'Between guest stays. Includes making unit guest-ready + standard inspection-ready clean.',
+            icon: Sparkles
+        },
     ];
-
-    const togglePest = (id: PestType) => {
-        const current = state.pests;
-        const updated = current.includes(id)
-            ? current.filter(p => p !== id)
-            : [...current, id];
-        updateState({ pests: updated });
-    };
 
     return (
         <div className="space-y-6">
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-white">What's the issue?</h2>
-                <p className="text-gray-400">Select all that apply.</p>
+                <h2 className="text-2xl font-bold text-white">Select Service Type</h2>
+                <p className="text-gray-400">What kind of cleaning do you need?</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-                {pests.map((pest) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {services.map((service) => (
                     <Card
-                        key={pest.id}
+                        key={service.id}
                         hover
-                        selected={state.pests.includes(pest.id)}
-                        onClick={() => togglePest(pest.id)}
-                        className="flex flex-col items-center justify-center gap-2 p-4 h-32 text-center"
+                        selected={state.serviceType === service.id}
+                        onClick={() => updateState({ serviceType: service.id })}
+                        className="flex flex-col items-start gap-4 p-6 cursor-pointer"
                     >
-                        <div className="text-3xl mb-1">{pest.icon}</div>
-                        <span className={`font-medium ${state.pests.includes(pest.id) ? 'text-white' : 'text-gray-400'}`}>
-                            {pest.label}
-                        </span>
+                        <div className={`p-3 rounded-full transition-colors ${state.serviceType === service.id ? 'bg-green-500/20 text-green-500 shadow-[0_0_15px_rgba(34,197,94,0.2)]' : 'bg-[#27272a] text-gray-500 group-hover:text-gray-300'}`}>
+                            <service.icon size={24} />
+                        </div>
+                        <div>
+                            <h3 className={`font-bold text-lg mb-2 ${state.serviceType === service.id ? 'text-white' : 'text-gray-200'}`}>
+                                {service.label}
+                            </h3>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                {service.description}
+                            </p>
+                        </div>
                     </Card>
                 ))}
             </div>
@@ -118,7 +122,6 @@ const PestStep = () => {
                 fullWidth
                 variant="accent"
                 onClick={nextStep}
-                disabled={state.pests.length === 0}
             >
                 Continue
             </Button>
@@ -126,54 +129,47 @@ const PestStep = () => {
     );
 };
 
-const PropertyStep = () => {
+const SizeStep = () => {
     const { state, updateState, nextStep } = useBooking();
 
-    const properties: { id: PropertyType; label: string }[] = [
-        { id: 'house', label: 'House' },
-        { id: 'apartment', label: 'Apartment/Condo' },
-        { id: 'commercial', label: 'Commercial' },
+    const sizes: { id: UnitSize; label: string }[] = [
+        { id: 'studio', label: 'Studio / 1 Bath' },
+        { id: '1bed1bath', label: '1 Bed / 1 Bath' },
+        { id: '2bed1bath', label: '2 Bed / 1 Bath' },
+        { id: '2bed2bath', label: '2 Bed / 2 Bath' },
+        { id: '3bed2bath', label: '3 Bed / 2 Bath' },
     ];
-
-
 
     return (
         <div className="space-y-8">
-            <div className="space-y-4">
-                <h2 className="text-xl font-bold text-white">Property Type</h2>
-                <div className="flex flex-col sm:flex-row gap-3">
-                    {properties.map((p) => (
-                        <button
-                            key={p.id}
-                            onClick={() => updateState({ propertyType: p.id })}
-                            className={`flex-1 py-4 px-4 border rounded-xl transition-all font-medium ${state.propertyType === p.id
-                                ? 'border-red-500 bg-red-500/10 text-white'
-                                : 'border-[#333] hover:border-gray-500 text-gray-400'
-                                }`}
-                        >
-                            <span className="block">{p.label}</span>
-                            {p.id === 'commercial' && <span className="text-xs text-red-400 font-normal mt-1 block">Tailored for Business</span>}
-                        </button>
-                    ))}
-                </div>
+            <div className="text-center">
+                <h2 className="text-2xl font-bold text-white">Unit Size</h2>
+                <p className="text-gray-400">Select the size of your property</p>
             </div>
 
-            <div className="space-y-4">
-                <h2 className="text-xl font-bold text-white">Approx Rooms</h2>
-                <div className="grid grid-cols-2 gap-3">
-                    {['Studio / 1 Bed', '2 Bedrooms', '3-4 Bedrooms', '5+ Bedrooms'].map((s) => (
-                        <button
-                            key={s}
-                            onClick={() => updateState({ propertySize: s })}
-                            className={`py-3 px-4 border rounded-lg text-left transition-all ${state.propertySize === s
-                                ? 'border-red-500 bg-red-500/10 text-white shadow-[0_0_15px_rgba(239,68,68,0.2)]'
-                                : 'border-[#333] hover:bg-[#27272a] text-gray-400'
-                                }`}
-                        >
-                            {s}
-                        </button>
-                    ))}
-                </div>
+            <div className="grid grid-cols-1 gap-3">
+                {sizes.map((s) => (
+                    <button
+                        key={s.id}
+                        onClick={() => updateState({ unitSize: s.id })}
+                        className={`py-4 px-6 border rounded-xl text-left transition-all duration-300 relative overflow-hidden group flex justify-between items-center ${state.unitSize === s.id
+                            ? 'border-transparent text-white'
+                            : 'border-[#27272a] bg-[#18181b] hover:bg-[#202023] hover:border-[#3f3f46] text-gray-400'
+                            }`}
+                    >
+                        {state.unitSize === s.id && (
+                            <>
+                                <div className="absolute inset-[-50%] -z-10 animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,#10b981_50%,#00000000_100%)] opacity-100" />
+                                <div className="absolute inset-[1px] bg-[#18181b] rounded-[11px] -z-10" />
+                                <div className="absolute inset-0 bg-emerald-500/5 -z-10" />
+                            </>
+                        )}
+                        <span className="font-medium text-lg relative z-10">{s.label}</span>
+                        <span className="font-bold relative z-10 text-white">
+                            ${PRICING[state.serviceType][s.id]}
+                        </span>
+                    </button>
+                ))}
             </div>
 
             <Button fullWidth variant="accent" onClick={nextStep}>Continue</Button>
@@ -181,76 +177,83 @@ const PropertyStep = () => {
     );
 };
 
-const PlanStep = () => {
+const AddOnStep = () => {
     const { state, updateState, nextStep } = useBooking();
 
-    const plans = [
-        {
-            id: 'monthly' as PlanType,
-            title: 'Monthly Premium',
-            price: '$49',
-            period: '/month',
-            features: ['Maximum protection', 'Priority scheduling', 'Mosquito coverage included'],
-        },
-        {
-            id: 'quarterly' as PlanType,
-            title: 'Quarterly Protection',
-            price: '$129',
-            period: '/quarter',
-            features: ['Initial flush-out included', 'Unlimited free re-services', 'Seasonal protection', 'Covers 15+ pests'],
-            recommended: true,
-        },
-        {
-            id: 'one-time' as PlanType,
-            title: 'One-Time Service',
-            price: '$249',
-            period: 'single service',
-            features: ['Full interior & exterior', '30-day guarantee', 'No contract'],
-        }
+    const addons: { id: AddOnType; label: string; price: number }[] = [
+        { id: 'oven', label: 'Inside Oven', price: PRICING.addons.oven },
+        { id: 'fridge', label: 'Inside Fridge', price: PRICING.addons.fridge },
+        { id: 'windows', label: 'Interior Windows', price: PRICING.addons.windows },
+        { id: 'same-day', label: 'Same-day Service', price: PRICING.addons['same-day'] },
     ];
+
+    const toggleAddOn = (id: AddOnType) => {
+        const current = state.addOns;
+        const updated = current.includes(id)
+            ? current.filter(item => item !== id)
+            : [...current, id];
+        updateState({ addOns: updated });
+    };
+
+    // Safely calculate basePrice ensuring PRICING keys exist
+    const basePrice = PRICING[state.serviceType]?.[state.unitSize] || 0;
+    const addOnsPrice = state.addOns.reduce((acc, curr) => acc + (PRICING.addons[curr] || 0), 0);
+    const total = basePrice + addOnsPrice;
 
     return (
         <div className="space-y-6">
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-white">Choose your plan</h2>
+                <h2 className="text-2xl font-bold text-white">Optional Add-Ons</h2>
+                <p className="text-gray-400">Need a little extra?</p>
             </div>
 
-            <div className="space-y-4">
-                {plans.map((plan) => (
-                    <div
-                        key={plan.id}
-                        onClick={() => updateState({ plan: plan.id })}
-                        className={`relative border rounded-xl p-6 cursor-pointer transition-all ${state.plan === plan.id
-                            ? 'border-red-500 bg-red-500/5 shadow-[0_0_20px_rgba(239,68,68,0.1)]'
-                            : 'border-[#333] hover:border-gray-500 bg-[#18181b]'
+            <div className="space-y-3">
+                {addons.map((addon) => (
+                    <button
+                        key={addon.id}
+                        onClick={() => toggleAddOn(addon.id)}
+                        className={`w-full p-4 border rounded-xl flex justify-between items-center transition-all duration-300 relative overflow-hidden group ${state.addOns.includes(addon.id)
+                            ? 'border-transparent text-white'
+                            : 'border-[#27272a] bg-[#18181b] hover:bg-[#202023] hover:border-[#3f3f46] text-gray-400'
                             }`}
                     >
-                        {plan.recommended && (
-                            <span className="absolute -top-3 right-6 bg-[#ef4444] text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg">
-                                MOST POPULAR
-                            </span>
+                        {state.addOns.includes(addon.id) && (
+                            <>
+                                <div className="absolute inset-[-50%] -z-10 animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,#10b981_50%,#00000000_100%)] opacity-100" />
+                                <div className="absolute inset-[1px] bg-[#18181b] rounded-[11px] -z-10" />
+                                <div className="absolute inset-0 bg-emerald-500/5 -z-10" />
+                            </>
                         )}
-                        <div className="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 className={`font-bold text-lg ${state.plan === plan.id ? 'text-white' : 'text-gray-200'}`}>{plan.title}</h3>
-                                <ul className="mt-2 space-y-2">
-                                    {plan.features.map((f, i) => (
-                                        <li key={i} className="text-sm text-gray-400 flex items-center gap-2">
-                                            <Check size={14} className={state.plan === plan.id ? 'text-red-500' : 'text-gray-500'} /> {f}
-                                        </li>
-                                    ))}
-                                </ul>
+                        <div className="flex items-center gap-3 relative z-10">
+                            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${state.addOns.includes(addon.id) ? 'bg-green-500 border-green-500' : 'border-gray-500'}`}>
+                                {state.addOns.includes(addon.id) && <Check size={14} className="text-white" />}
                             </div>
-                            <div className="text-right">
-                                <div className="text-2xl font-bold text-white">{plan.price}</div>
-                                <div className="text-xs text-gray-500 uppercase">{plan.period}</div>
-                            </div>
+                            <span className="font-medium">{addon.label}</span>
                         </div>
-                    </div>
+                        <span className="text-sm font-semibold relative z-10 text-gray-400">+${addon.price}</span>
+                    </button>
                 ))}
             </div>
 
-            <Button fullWidth variant="accent" onClick={nextStep}>Select Plan</Button>
+            <div className="bg-[#18181b] p-4 rounded-xl border border-[#333]">
+                <div className="flex justify-between items-center text-gray-400 mb-2">
+                    <span>Base Price ({state.unitSize.replace(/(\d)bed(\d)bath/, '$1 Bd / $2 Ba').replace('studio', 'Studio')})</span>
+                    <span>${basePrice}</span>
+                </div>
+                {state.addOns.length > 0 && (
+                    <div className="flex justify-between items-center text-gray-400 mb-2">
+                        <span>Add-Ons</span>
+                        <span>+${addOnsPrice}</span>
+                    </div>
+                )}
+                <div className="h-px bg-[#333] my-2"></div>
+                <div className="flex justify-between items-center text-white font-bold text-lg">
+                    <span>Total</span>
+                    <span>${total}</span>
+                </div>
+            </div>
+
+            <Button fullWidth variant="accent" onClick={nextStep}>Confirm & Schedule</Button>
         </div>
     );
 };
@@ -264,7 +267,7 @@ const ScheduleStep = () => {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const datesArr = [];
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Normalize to midnight for consistent comparison
+        today.setHours(0, 0, 0, 0);
 
         for (let i = 1; i <= 6; i++) {
             const d = new Date(today);
@@ -273,22 +276,20 @@ const ScheduleStep = () => {
                 label: i === 1 ? 'Tomorrow' : days[d.getDay()],
                 date: `${months[d.getMonth()]} ${d.getDate()}`,
                 full: d.toISOString(),
-                blocked: i === 3 || i === 5 // Randomly block some days
+                blocked: i === 3 // Randomly block one day
             });
         }
         return datesArr;
     }, []);
-    const times = ['8:00 AM - 12:00 PM', '12:00 PM - 4:00 PM', '4:00 PM - 6:00 PM'];
-    const [selectedDate, setSelectedDate] = useState<string>(dates[0].full); // Default to first available
+
+    const times = ['8:00 AM - 11:00 AM', '11:00 AM - 2:00 PM', '2:00 PM - 5:00 PM'];
+    const [selectedDate, setSelectedDate] = useState<string>(dates[0].full);
     const [selectedTime, setSelectedTime] = useState(times[0]);
 
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-white">Schedule Service</h2>
-                <button className="text-xs flex items-center gap-1 text-red-400 hover:text-red-300 transition-colors">
-                    <CalendarIcon size={14} /> Full Calendar
-                </button>
+                <h2 className="text-2xl font-bold text-white">Select Date & Time</h2>
             </div>
 
             <div className="space-y-6">
@@ -300,47 +301,122 @@ const ScheduleStep = () => {
                                 key={d.full}
                                 disabled={d.blocked}
                                 onClick={() => !d.blocked && setSelectedDate(d.full)}
-                                className={`p-3 border rounded-lg text-sm font-medium transition-all flex flex-col items-center justify-center gap-1 relative overflow-hidden ${selectedDate === d.full
-                                    ? 'border-red-500 bg-red-600 text-white shadow-lg shadow-red-500/40 transform scale-[1.02] z-10'
+                                className={`p-3 border rounded-xl text-sm font-medium transition-all duration-300 flex flex-col items-center justify-center gap-1 relative overflow-hidden group ${selectedDate === d.full
+                                    ? 'border-transparent text-white'
                                     : d.blocked
-                                        ? 'border-[#222] bg-[#111] text-gray-600 cursor-not-allowed opacity-50'
-                                        : 'border-[#333] text-gray-400 hover:border-gray-500 hover:bg-[#1f1f22]'
+                                        ? 'border-[#222] bg-[#121212] text-gray-700 cursor-not-allowed opacity-40'
+                                        : 'border-[#27272a] bg-[#18181b] text-gray-400 hover:border-[#3f3f46] hover:bg-[#202023]'
                                     }`}
                             >
                                 {selectedDate === d.full && (
-                                    <div className="absolute top-1 right-1 bg-white text-red-600 rounded-full p-0.5">
+                                    <>
+                                        <div className="absolute inset-0 rounded-xl border-2 border-emerald-500 z-0" />
+                                        <div className="absolute inset-[1px] bg-emerald-600 rounded-[11px] -z-10" />
+                                    </>
+                                )}
+                                {selectedDate === d.full && (
+                                    <div className="absolute top-1 right-1 bg-white text-green-600 rounded-full p-0.5 z-20">
                                         <Check size={8} strokeWidth={4} />
                                     </div>
                                 )}
-                                <span className={selectedDate === d.full ? 'font-bold text-white' : ''}>{d.label}</span>
-                                <span className={`text-xs ${selectedDate === d.full ? 'text-white/90' : 'opacity-60'}`}>{d.date}</span>
-                                {d.blocked && <span className="text-[10px] text-red-900 font-bold uppercase mt-1">Booked</span>}
+                                <span className={`${selectedDate === d.full ? 'font-bold text-white' : ''} relative z-10`}>{d.label}</span>
+                                <span className={`text-xs ${selectedDate === d.full ? 'text-white/90' : 'opacity-60'} relative z-10`}>{d.date}</span>
+                                {d.blocked && <span className="text-[10px] text-red-900 font-bold uppercase mt-1 relative z-10">Booked</span>}
                             </button>
                         ))}
                     </div>
                 </div>
 
                 <div>
-                    <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">Time Slot</h3>
+                    <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">Time Window</h3>
                     <div className="flex flex-col gap-2">
                         {times.map((t) => (
                             <button
                                 key={t}
                                 onClick={() => setSelectedTime(t)}
-                                className={`p-4 border rounded-lg text-left flex justify-between items-center group transition-all ${selectedTime === t
-                                    ? 'border-white/40 bg-white/5 text-white'
-                                    : 'border-[#333] text-gray-400 hover:bg-[#27272a]'
+                                className={`p-4 border rounded-xl text-left flex justify-between items-center group transition-all duration-300 relative overflow-hidden ${selectedTime === t
+                                    ? 'border-transparent text-white'
+                                    : 'border-[#27272a] bg-[#18181b] text-gray-400 hover:bg-[#202023] hover:border-[#3f3f46]'
                                     }`}
                             >
-                                <span>{t}</span>
-                                <div className={`w-4 h-4 rounded-full border ${selectedTime === t ? 'border-red-500 bg-red-500' : 'border-gray-500'}`}></div>
+                                {selectedTime === t && (
+                                    <>
+                                        <div className="absolute inset-0 rounded-xl border-2 border-emerald-500 z-0" />
+                                        <div className="absolute inset-[1px] bg-emerald-600 rounded-[11px] -z-10" />
+                                    </>
+                                )}
+                                <span className="relative z-10">{t}</span>
+                                <div className={`w-4 h-4 rounded-full border relative z-10 ${selectedTime === t ? 'border-green-500 bg-green-500' : 'border-gray-500'}`}></div>
                             </button>
                         ))}
                     </div>
                 </div>
             </div>
 
-            <Button fullWidth variant="accent" onClick={nextStep}>Continue to Payment</Button>
+            <Button fullWidth variant="accent" onClick={nextStep}>Proceed to Payment</Button>
+        </div>
+    );
+};
+
+const ContactStep = () => {
+    const { state, updateState, nextStep } = useBooking();
+
+    const handleChange = (field: keyof typeof state.contact, value: string) => {
+        updateState({
+            contact: {
+                ...state.contact,
+                [field]: value
+            }
+        });
+    };
+
+    const isValid = state.contact.firstName && state.contact.lastName && state.contact.email && state.contact.phone;
+
+    return (
+        <div className="space-y-6">
+            <div className="text-center">
+                <h2 className="text-2xl font-bold text-white">Contact Details</h2>
+                <p className="text-gray-400">Where should we send your receipt?</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+                <Input
+                    label="First Name"
+                    value={state.contact.firstName}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
+                    placeholder="Jane"
+                    required
+                />
+                <Input
+                    label="Last Name"
+                    value={state.contact.lastName}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
+                    placeholder="Doe"
+                    required
+                />
+            </div>
+
+            <Input
+                label="Email Address"
+                type="email"
+                value={state.contact.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+                placeholder="jane@example.com"
+                required
+            />
+
+            <Input
+                label="Phone Number"
+                type="tel"
+                value={state.contact.phone}
+                onChange={(e) => handleChange('phone', e.target.value)}
+                placeholder="(555) 555-5555"
+                required
+            />
+
+            <Button fullWidth variant="accent" disabled={!isValid} onClick={nextStep}>
+                Continue to Payment
+            </Button>
         </div>
     );
 };
@@ -349,33 +425,44 @@ const CheckoutStep = () => {
     const { state } = useBooking();
     const [paymentMethod, setPaymentMethod] = useState<'card' | 'apple' | 'google'>('card');
 
+    const basePrice = PRICING[state.serviceType]?.[state.unitSize] || 0;
+    const addOnsPrice = state.addOns.reduce((acc, curr) => acc + (PRICING.addons[curr] || 0), 0);
+    const total = basePrice + addOnsPrice;
+
     return (
         <div className="space-y-6">
             <div className="text-center relative">
-                {/* Glowing animation background */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-green-500/20 blur-[50px] rounded-full pointer-events-none"></div>
 
                 <div className="w-20 h-20 bg-[#18181b] rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 border border-green-500/30 relative z-10 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
                     <Loader2 size={40} className="animate-spin text-green-500" />
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-2">Almost Done!</h2>
-                <p className="text-gray-400 text-lg">Just one more step to secure your appointment.</p>
+                <h2 className="text-3xl font-bold text-white mb-2">Secure Booking</h2>
+                <p className="text-gray-400 text-lg">Final step to confirm your cleaning.</p>
             </div>
 
             <div className="bg-[#18181b] border border-[#333] p-6 rounded-xl space-y-4 shadow-lg">
                 <div className="flex justify-between">
-                    <span className="text-gray-400">Service Plan</span>
-                    <span className="font-semibold text-white capitalize">{state.plan}</span>
+                    <span className="text-gray-400">Service</span>
+                    <span className="font-semibold text-white capitalize">{state.serviceType === 'move-out' ? 'Move-Out Clean' : 'Airbnb Turnover'}</span>
                 </div>
                 <div className="flex justify-between">
-                    <span className="text-gray-400">Property</span>
-                    <span className="font-semibold text-white capitalize">{state.propertyType}, {state.propertySize}</span>
+                    <span className="text-gray-400">Unit Size</span>
+                    <span className="font-semibold text-white capitalize">{state.unitSize.replace(/(\d)bed(\d)bath/, '$1 Bd / $2 Ba').replace('studio', 'Studio')}</span>
                 </div>
+                {state.addOns.length > 0 && (
+                    <div className="flex justify-between flex-wrap gap-2 text-right">
+                        <span className="text-gray-400">Add-ons</span>
+                        <span className="font-semibold text-white text-sm">
+                            {state.addOns.map(a => a.replace('-', ' ')).join(', ')}
+                        </span>
+                    </div>
+                )}
                 <div className="h-px bg-[#333]"></div>
                 <div className="flex justify-between items-end">
                     <span className="text-gray-200">Total Due Today</span>
                     <div className="text-right">
-                        <span className="block text-2xl font-bold text-white">$129.00</span>
+                        <span className="block text-2xl font-bold text-white">${total}.00</span>
                         <span className="text-xs text-green-500 font-medium tracking-wide">100% SECURE CHECKOUT</span>
                     </div>
                 </div>
@@ -386,30 +473,30 @@ const CheckoutStep = () => {
                 <div className="grid grid-cols-3 gap-3">
                     <button
                         onClick={() => setPaymentMethod('card')}
-                        className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${paymentMethod === 'card'
-                            ? 'bg-white text-neutral-900 border-white shadow-lg'
-                            : 'bg-[#18181b] text-gray-400 border-[#333] hover:bg-[#27272a]'}`}
+                        className={`p-4 rounded-xl border flex flex-col items-center gap-3 transition-all duration-300 ${paymentMethod === 'card'
+                            ? 'bg-gradient-to-br from-green-500/20 to-green-900/10 border-green-500/50 text-white shadow-[0_0_20px_rgba(34,197,94,0.15)] ring-1 ring-green-500/50'
+                            : 'bg-[#18181b] text-gray-500 border-[#27272a] hover:bg-[#202023] hover:border-[#3f3f46]'}`}
                     >
-                        <CreditCard size={20} />
-                        <span className="text-xs font-bold">Card</span>
+                        <CreditCard size={24} className={paymentMethod === 'card' ? 'text-green-400' : 'text-gray-500'} />
+                        <span className="text-xs font-bold tracking-wide">Card</span>
                     </button>
                     <button
                         onClick={() => setPaymentMethod('apple')}
-                        className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${paymentMethod === 'apple'
-                            ? 'bg-white text-neutral-900 border-white shadow-lg'
-                            : 'bg-[#18181b] text-gray-400 border-[#333] hover:bg-[#27272a]'}`}
+                        className={`p-4 rounded-xl border flex flex-col items-center gap-3 transition-all duration-300 ${paymentMethod === 'apple'
+                            ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/50 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+                            : 'bg-[#18181b] text-gray-500 border-[#27272a] hover:bg-[#202023] hover:border-[#3f3f46]'}`}
                     >
-                        <Smartphone size={20} />
-                        <span className="text-xs font-bold">Apple Pay</span>
+                        <Smartphone size={24} className={paymentMethod === 'apple' ? 'text-white' : 'text-gray-500'} />
+                        <span className="text-xs font-bold tracking-wide">Apple Pay</span>
                     </button>
                     <button
                         onClick={() => setPaymentMethod('google')}
-                        className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${paymentMethod === 'google'
-                            ? 'bg-white text-neutral-900 border-white shadow-lg'
-                            : 'bg-[#18181b] text-gray-400 border-[#333] hover:bg-[#27272a]'}`}
+                        className={`p-4 rounded-xl border flex flex-col items-center gap-3 transition-all duration-300 ${paymentMethod === 'google'
+                            ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/50 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+                            : 'bg-[#18181b] text-gray-500 border-[#27272a] hover:bg-[#202023] hover:border-[#3f3f46]'}`}
                     >
-                        <div className="h-5 w-5 rounded-full border border-current flex items-center justify-center font-bold text-[10px]">G</div>
-                        <span className="text-xs font-bold">Google Pay</span>
+                        <div className={`h-6 w-6 rounded-full border border-current flex items-center justify-center font-bold text-[10px] ${paymentMethod === 'google' ? 'text-white' : 'text-gray-500'}`}>G</div>
+                        <span className="text-xs font-bold tracking-wide">Google Pay</span>
                     </button>
                 </div>
 
@@ -454,28 +541,33 @@ const CheckoutStep = () => {
                 )}
             </div>
 
-            <button className="w-full relative group overflow-hidden rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold py-4 text-lg transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(22,163,74,0.4)]">
+            <button className="w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-5 text-lg transition-all transform hover:scale-[1.01] shadow-[0_0_30px_rgba(22,163,74,0.4)] ring-1 ring-white/10">
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                Pay $129.00 & Book Service
+                Pay ${total}.00 & Book Service
             </button>
 
             <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
                 <span className="flex items-center gap-1"><Check size={12} className="text-green-500" /> AES-256 Encryption</span>
-                <span className="flex items-center gap-1"><Check size={12} className="text-green-500" /> Cancel Anytime</span>
+                <span className="flex items-center gap-1"><Check size={12} className="text-green-500" /> Satisfaction Guaranteed</span>
             </div>
         </div>
     );
 };
 
+import { ConfirmationModal } from '../components/ui/ConfirmationModal';
+
 export const BookingPage = () => {
     const { currentStep, prevStep } = useBooking();
+    const [showExitConfirm, setShowExitConfirm] = useState(false);
+
 
     const steps = [
         { title: 'Location', component: LocationStep },
-        { title: 'Pests', component: PestStep },
-        { title: 'Property', component: PropertyStep },
-        { title: 'Plan', component: PlanStep },
+        { title: 'Service', component: ServiceStep },
+        { title: 'Size', component: SizeStep },
+        { title: 'Add-Ons', component: AddOnStep },
         { title: 'Schedule', component: ScheduleStep },
+        { title: 'Contact', component: ContactStep },
         { title: 'Checkout', component: CheckoutStep },
     ];
 
@@ -493,23 +585,35 @@ export const BookingPage = () => {
                 {/* Header / Progress */}
                 <div className="mb-8">
                     <div className="flex justify-between items-center mb-4">
-                        {currentStep > 0 ? (
-                            <button onClick={prevStep} className="text-gray-400 hover:text-white flex items-center gap-1 text-sm font-medium transition-colors">
-                                <ArrowLeft size={16} /> Back
+                        <div className="flex items-center gap-4">
+                            {currentStep > 0 ? (
+                                <button onClick={prevStep} className="text-gray-400 hover:text-white flex items-center gap-1 text-sm font-medium transition-colors">
+                                    <ArrowLeft size={16} /> Back
+                                </button>
+                            ) : (
+                                <button onClick={() => window.history.back()} className="text-gray-400 hover:text-white flex items-center gap-1 text-sm font-medium transition-colors">
+                                    <ArrowLeft size={16} /> Home
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            <span className="text-xs font-semibold text-gray-500 tracking-wider">
+                                STEP {currentStep + 1} OF {steps.length}
+                            </span>
+                            <button
+                                onClick={() => setShowExitConfirm(true)}
+                                className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                                title="Cancel Booking"
+                            >
+                                <X size={20} />
                             </button>
-                        ) : (
-                            <button onClick={() => window.history.back()} className="text-gray-400 hover:text-white flex items-center gap-1 text-sm font-medium transition-colors">
-                                <ArrowLeft size={16} /> Home
-                            </button>
-                        )}
-                        <span className="text-xs font-semibold text-gray-500 tracking-wider">
-                            STEP {currentStep + 1} OF {steps.length}
-                        </span>
+                        </div>
                     </div>
 
                     <div className="h-1 bg-[#27272a] rounded-full overflow-hidden">
                         <motion.div
-                            className="h-full bg-gradient-to-r from-red-600 to-red-500"
+                            className="h-full bg-gradient-to-r from-green-600 to-green-500"
                             initial={{ width: 0 }}
                             animate={{ width: `${progress}%` }}
                             transition={{ duration: 0.3 }}
@@ -531,6 +635,17 @@ export const BookingPage = () => {
                         </motion.div>
                     </AnimatePresence>
                 </Card>
+                <ConfirmationModal
+                    isOpen={showExitConfirm}
+                    onClose={() => setShowExitConfirm(false)}
+                    onConfirm={() => {
+                        window.location.href = '/';
+                    }}
+                    title="Cancel Booking?"
+                    description="Are you sure you want to leave? All your progress will be lost and you'll have to start over."
+                    confirmText="Yes, Cancel"
+                    cancelText="Keep Booking"
+                />
             </div>
         </div>
     );

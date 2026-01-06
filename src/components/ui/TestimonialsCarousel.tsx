@@ -8,18 +8,18 @@ const testimonials = [
     {
         id: 1,
         name: "Sarah Jenkins",
-        role: "Homeowner",
+        role: "Renter",
         location: "Scottsdale, AZ",
-        text: "I was terrified of the scorpions I kept finding. PestFlow came out the same day I called. Haven't seen one since!",
+        text: "I was terrified of not getting my deposit back. ReadyCleans faired better than I could have imagined. Landlord was impressed and I got the full refund!",
         rating: 5,
         type: "residential"
     },
     {
         id: 2,
         name: "Mike Ross",
-        role: "General Manager",
-        company: "The Biltmore Grill",
-        text: "In the restaurant business, pests are a nightmare. PestFlow's monthly service is invisible to my customers but extremely effective.",
+        role: "Airbnb Superhost",
+        company: "Phx Stays",
+        text: "My previous cleaner flaked on a same-day turnover. ReadyCleans saved me. The place was 5-star ready in 3 hours. I use them for all my units now.",
         rating: 5,
         type: "commercial"
     },
@@ -28,7 +28,7 @@ const testimonials = [
         name: "Elena Rodriguez",
         role: "Property Manager",
         company: "Vista Apartments",
-        text: "Managing 200 units is hard enough. PestFlow handles all our tenant requests automatically. Best vendor we have.",
+        text: "Managing 200 units, move-out season is chaos. ReadyCleans' automated booking and flat-rates make our lives so much easier.",
         rating: 5,
         type: "commercial"
     },
@@ -37,18 +37,18 @@ const testimonials = [
         name: "David Chen",
         role: "Homeowner",
         location: "Gilbert, AZ",
-        text: "Fast, professional, and they actually answer the phone at night! The technician explained everything clearly.",
+        text: "Sold my house and needed a deep clean before closing. They came the next morning. Efficient, thorough, and no hidden fees.",
         rating: 5,
         type: "residential"
     },
     {
         id: 5,
         name: "Marcus Thorne",
-        role: "Logistics Director",
-        company: "Phx Distribution Center",
-        text: "We needed documentation for auditors. PestFlow provided a digital portal with every service log recorded. Game changer.",
+        role: "Landlord",
+        location: "Mesa, AZ",
+        text: "I used to clean units myself between tenants. Never again. For $150, the time I save is worth every penny. Highly recommend.",
         rating: 5,
-        type: "commercial"
+        type: "residential"
     }
 ];
 
@@ -73,7 +73,7 @@ export const TestimonialsCarousel = () => {
         <section className="py-24 bg-[#0c0c0e] relative overflow-hidden border-t border-[#27272a]">
             {/* Background accents */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-red-600/5 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-green-600/5 rounded-full blur-[100px]"></div>
                 <div className="absolute bottom-[20%] left-[10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px]"></div>
             </div>
 
@@ -96,12 +96,12 @@ export const TestimonialsCarousel = () => {
                                     className="w-full"
                                 >
                                     <Card className="bg-[#18181b]/50 backdrop-blur-md border-[#27272a] p-8 md:p-12 relative mx-auto max-w-4xl">
-                                        <Quote className="absolute top-6 left-6 md:top-10 md:left-10 text-red-500/10 rotate-180" size={80} />
+                                        <Quote className="absolute top-6 left-6 md:top-10 md:left-10 text-green-500/10 rotate-180" size={80} />
 
                                         <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
                                             {/* Avatar / Initial */}
                                             <div className="flex-shrink-0">
-                                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-red-500/20">
+                                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-green-500/20">
                                                     {testimonials[currentIndex].name.charAt(0)}
                                                 </div>
                                             </div>
@@ -123,7 +123,7 @@ export const TestimonialsCarousel = () => {
                                                         {testimonials[currentIndex].company && (
                                                             <>
                                                                 <span className="hidden md:inline">•</span>
-                                                                <span className="text-red-400">{testimonials[currentIndex].company}</span>
+                                                                <span className="text-green-400">{testimonials[currentIndex].company}</span>
                                                             </>
                                                         )}
                                                         {testimonials[currentIndex].location && (
@@ -160,7 +160,7 @@ export const TestimonialsCarousel = () => {
                             <button
                                 key={i}
                                 onClick={() => setCurrentIndex(i)}
-                                className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? 'w-8 bg-red-500' : 'w-2 bg-[#333] hover:bg-[#444]'
+                                className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? 'w-8 bg-green-500' : 'w-2 bg-[#333] hover:bg-[#444]'
                                     }`}
                             />
                         ))}

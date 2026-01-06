@@ -17,7 +17,7 @@
   }
 
   body {
-    @apply bg-[#09090b] text-white antialiased selection:bg-red-500/30 selection:text-red-200;
+    @apply bg-[#09090b] text-white antialiased selection:bg-green-500/30 selection:text-green-200;
   }
 }
 

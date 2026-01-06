@@ -12,7 +12,7 @@ export const AIAssistant = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState<Message[]>([
-        { id: '1', text: "Hi! I'm your PestFlow assistant. I can help you choose a plan or answer questions about our safe treatments. How can I help?", sender: 'ai' }
+        { id: '1', text: "Hi! I'm your ReadyCleans assistant. Need help with Move-Out or Airbnb turnover pricing?", sender: 'ai' }
     ]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -33,17 +33,17 @@ export const AIAssistant = () => {
 
         // Simulate AI response logic
         setTimeout(() => {
-            let responseText = "I'm not sure about that, but our team is available 24/7 if you book a service!";
+            let responseText = "I'm not sure about that, but our team is available 7 days a week if you book a service!";
             const lower = input.toLowerCase();
 
-            if (lower.includes('safe') || lower.includes('pet') || lower.includes('kid') || lower.includes('child')) {
-                responseText = "Absolutely. All our products are EPA-approved and pet/child friendly. We prioritize safety above everything else.";
-            } else if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) {
-                responseText = "Our plans start at just $49/month for comprehensive coverage. You can see exact pricing for your home size in the booking flow!";
-            } else if (lower.includes('contract') || lower.includes('cancel')) {
-                responseText = "No contracts! You can cancel anytime. We believe we should earn your business with every service.";
-            } else if (lower.includes('ant') || lower.includes('roach') || lower.includes('spider')) {
-                responseText = "We cover all common household pests including ants, roaches, spiders, and rodents in our standard plans.";
+            if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) {
+                responseText = "Our Move-Out cleans start at $125 (Studio) and Airbnb upgrades start at $80. The price is fixed based on your unit size!";
+            } else if (lower.includes('include') || lower.includes('what do you do') || lower.includes('checklist')) {
+                responseText = "We cover all standard inspection points: Kitchen (cabinets in/out, appliances out), Bathrooms (sanitize), Floors, Baseboards, and Dusting.";
+            } else if (lower.includes('furniture') || lower.includes('trash') || lower.includes('junk')) {
+                responseText = "Please note: We DO NOT move heavy furniture or remove heavy trash/junk. Please have the unit cleared of personal items.";
+            } else if (lower.includes('guarantee') || lower.includes('deposit')) {
+                responseText = "Yes! We offer a 100% Satisfaction Guarantee. If you fail an inspection due to cleaning, we return for free.";
             }
 
             setMessages(prev => [...prev, { id: 'ai-' + Date.now(), text: responseText, sender: 'ai' }]);
@@ -59,7 +59,7 @@ export const AIAssistant = () => {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-6 right-6 w-12 h-12 bg-red-600 text-white rounded-full shadow-[0_4px_20px_rgba(220,38,38,0.5)] flex items-center justify-center hover:bg-red-700 transition-colors z-50 border border-white/10"
+                        className="fixed bottom-6 right-6 w-12 h-12 bg-green-600 text-white rounded-full shadow-[0_4px_20px_rgba(34,197,94,0.5)] flex items-center justify-center hover:bg-green-700 transition-colors z-50 border border-white/10"
                     >
                         <MessageSquare size={20} />
                     </motion.button>
@@ -77,11 +77,11 @@ export const AIAssistant = () => {
                         {/* Header */}
                         <div className="bg-[#09090b] p-4 flex justify-between items-center border-b border-[#27272a]">
                             <div className="flex items-center gap-3">
-                                <div className="bg-red-500/20 p-2 rounded-lg text-red-500">
+                                <div className="bg-green-500/20 p-2 rounded-lg text-green-500">
                                     <Bot size={20} />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-sm text-white">PestFlow AI</h3>
+                                    <h3 className="font-bold text-sm text-white">ReadyCleans AI</h3>
                                     <div className="flex items-center gap-1.5">
                                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_5px_rgba(34,197,94,0.5)]"></span>
                                         <span className="text-xs text-gray-400">Online</span>
@@ -107,7 +107,7 @@ export const AIAssistant = () => {
                                         className={`
                       max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed
                       ${msg.sender === 'user'
-                                                ? 'bg-red-600 text-white rounded-tr-none'
+                                                ? 'bg-green-600 text-white rounded-tr-none'
                                                 : 'bg-[#27272a] text-gray-200 rounded-tl-none border border-[#3f3f46]'
                                             }
                     `}
@@ -127,7 +127,7 @@ export const AIAssistant = () => {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                                 placeholder="Ask a question..."
-                                className="flex-1 bg-[#27272a] border border-[#3f3f46] text-white rounded-full px-4 py-2.5 text-sm focus:outline-none focus:border-red-500 placeholder:text-gray-500"
+                                className="flex-1 bg-[#27272a] border border-[#3f3f46] text-white rounded-full px-4 py-2.5 text-sm focus:outline-none focus:border-green-500 placeholder:text-gray-500"
                             />
                             <button
                                 onClick={handleSend}

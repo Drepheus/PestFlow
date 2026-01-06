@@ -63,7 +63,7 @@ export const PlanSelectionModal: React.FC<PlanSelectionModalProps> = ({
                     >
                         <div ref={modalRef} className="bg-[#18181b] border border-[#27272a] rounded-2xl shadow-2xl overflow-hidden">
                             {/* Header with gradient line */}
-                            <div className="h-1 bg-gradient-to-r from-red-600 to-red-400"></div>
+                            <div className="h-1 bg-gradient-to-r from-green-600 to-green-400"></div>
 
                             <div className="p-6 relative">
                                 <button
@@ -74,7 +74,7 @@ export const PlanSelectionModal: React.FC<PlanSelectionModalProps> = ({
                                 </button>
 
                                 <div className="text-center mb-8">
-                                    <h3 className="text-sm font-medium text-red-500 uppercase tracking-wider mb-2">Excellent Choice</h3>
+                                    <h3 className="text-sm font-medium text-green-500 uppercase tracking-wider mb-2">Excellent Choice</h3>
                                     <h2 className="text-2xl font-bold text-white mb-2">{planTitle}</h2>
                                     <p className="text-gray-400">
                                         Starting at <span className="text-white font-bold">{planPrice}</span>. How would you like to proceed?
