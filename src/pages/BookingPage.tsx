@@ -279,14 +279,14 @@ const ScheduleStep = () => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        for (let i = 1; i <= 6; i++) {
+        for (let i = 0; i <= 6; i++) {
             const d = new Date(today);
             d.setDate(today.getDate() + i);
             datesArr.push({
-                label: i === 1 ? 'Tomorrow' : days[d.getDay()],
+                label: i === 0 ? 'Today' : (i === 1 ? 'Tomorrow' : days[d.getDay()]),
                 date: `${months[d.getMonth()]} ${d.getDate()}`,
                 full: d.toISOString(),
-                blocked: i === 3 // Randomly block one day
+                blocked: false // Removed random block
             });
         }
         return datesArr;
