@@ -1,10 +1,13 @@
 import React from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-interface CardProps extends HTMLMotionProps<"div"> {
+interface CardProps {
+    children: React.ReactNode;
+    className?: string;
     hover?: boolean;
     selected?: boolean;
     variant?: 'default' | 'glass';
+    onClick?: () => void;
 }
 
 export const Card: React.FC<CardProps> = ({
