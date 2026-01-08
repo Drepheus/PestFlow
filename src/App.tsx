@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { Analytics } from "@vercel/analytics/react"
 import { BookingProvider } from './context/BookingContext';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Layout } from './components/layout/Layout';
@@ -35,6 +36,7 @@ function App() {
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <AIAssistant />
+            <Analytics />
           </Layout>
         </BookingProvider>
       </Router>
