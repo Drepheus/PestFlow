@@ -18,6 +18,13 @@ export const HomePage = () => {
     const [error, setError] = useState(''); // Restore error state
 
 
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+    const heroVideos = ['/videos/hero-1.mp4', '/videos/hero-2.mp4'];
+
+    const handleVideoEnded = () => {
+        setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length);
+    };
+
     const handleStartBooking = () => {
         if (zipCode) {
             if (isValidZipCode(zipCode)) {
@@ -56,13 +63,14 @@ export const HomePage = () => {
                 {/* Background Video & Gradients */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
                     <video
+                        key={currentVideoIndex}
                         autoPlay
                         muted
-                        loop
                         playsInline
-                        className="absolute w-full h-full object-cover opacity-40"
+                        onEnded={handleVideoEnded}
+                        className="absolute w-full h-full object-cover opacity-40 transition-opacity duration-1000"
                     >
-                        <source src="/videos/hero-1.mp4" type="video/mp4" />
+                        <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
                     </video>
 
                     {/* Dark Overlay to ensure readability */}

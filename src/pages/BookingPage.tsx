@@ -429,6 +429,10 @@ const CheckoutStep = () => {
     const addOnsPrice = state.addOns.reduce((acc, curr) => acc + (PRICING.addons[curr] || 0), 0);
     const total = basePrice + addOnsPrice;
 
+    const DEPOSIT_AMOUNT = 50;
+    const remaining = total - DEPOSIT_AMOUNT;
+    const [termsAccepted, setTermsAccepted] = useState(false);
+
     return (
         <div className="space-y-6">
             <div className="text-center relative">
@@ -458,12 +462,26 @@ const CheckoutStep = () => {
                         </span>
                     </div>
                 )}
+
                 <div className="h-px bg-[#333]"></div>
+
+                <div className="flex justify-between items-center text-gray-400 text-sm">
+                    <span>Total Service Value</span>
+                    <span>${total}.00</span>
+                </div>
+                <div className="flex justify-between items-center text-gray-400 text-sm">
+                    <span>Due After Service</span>
+                    <span>${remaining}.00</span>
+                </div>
+
+
+                <div className="h-px bg-[#333]"></div>
+
                 <div className="flex justify-between items-end">
-                    <span className="text-gray-200">Total Due Today</span>
+                    <span className="text-white font-medium">Deposit Due Now</span>
                     <div className="text-right">
-                        <span className="block text-2xl font-bold text-white">${total}.00</span>
-                        <span className="text-xs text-green-500 font-medium tracking-wide">100% SECURE CHECKOUT</span>
+                        <span className="block text-2xl font-bold text-green-500">${DEPOSIT_AMOUNT}.00</span>
+                        <span className="text-[10px] text-gray-500 uppercase tracking-widest">To Secure Spot</span>
                     </div>
                 </div>
             </div>
@@ -541,9 +559,28 @@ const CheckoutStep = () => {
                 )}
             </div>
 
-            <button className="w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-5 text-lg transition-all transform hover:scale-[1.01] shadow-[0_0_30px_rgba(22,163,74,0.4)] ring-1 ring-white/10">
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                Pay ${total}.00 & Book Service
+            {/* Terms Checkbox */}
+            <div className="flex items-start gap-3 p-4 bg-[#18181b] rounded-xl border border-[#333]">
+                <div className="relative flex items-center">
+                    <input
+                        type="checkbox"
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-500 bg-[#27272a] checked:border-green-500 checked:bg-green-500 transition-all"
+                    />
+                    <Check size={14} className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
+                </div>
+                <div className="text-sm text-gray-400">
+                    I agree to the <span className="text-green-500 cursor-pointer hover:underline">Terms of Service</span>. I understand the <strong>${DEPOSIT_AMOUNT} deposit</strong> is non-refundable if cancelled less than 24 hours before the appointment.
+                </div>
+            </div>
+
+            <button
+                disabled={!termsAccepted}
+                className={`w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-5 text-lg transition-all transform hover:scale-[1.01] shadow-[0_0_30px_rgba(22,163,74,0.4)] ring-1 ring-white/10 ${!termsAccepted ? 'opacity-50 cursor-not-allowed filter grayscale' : 'hover:from-green-500 hover:to-emerald-500'}`}
+            >
+                <div className={`absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-1000 ${termsAccepted ? 'group-hover:translate-x-[100%]' : ''}`}></div>
+                Pay ${DEPOSIT_AMOUNT}.00 Deposit
             </button>
 
             <div className="flex items-center justify-center gap-4 text-xs text-gray-500">

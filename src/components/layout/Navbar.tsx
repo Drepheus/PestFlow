@@ -47,9 +47,13 @@ export const Navbar = () => {
 
                 <div className="hidden md:flex items-center gap-6">
                     {/* Trust Signal */}
-                    <div className="flex items-center gap-2 text-[#22c55e] text-xs font-semibold uppercase tracking-wider">
-                        <span className="w-2 h-2 rounded-full bg-[#22c55e] shadow-[0_0_10px_rgba(34,197,94,0.4)]"></span>
-                        Available Tomorrow
+                    {/* Trust Signal & Contact */}
+                    <div className="flex flex-col items-end mr-2">
+                        <a href="tel:6233965203" className="text-white font-bold text-sm hover:text-green-400 transition-colors">(623) 396-5203</a>
+                        <div className="flex items-center gap-1.5 text-[#22c55e] text-[10px] font-bold uppercase tracking-wider">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse"></span>
+                            Available Today
+                        </div>
                     </div>
 
                     {!isBooking && (
