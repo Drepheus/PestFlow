@@ -3,11 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import { Sparkles, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AuthModal } from '../ui/AuthModal';
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const location = useLocation();
     const isBooking = location.pathname === '/booking';
 
@@ -58,9 +56,6 @@ export const Navbar = () => {
 
                     {!isBooking && (
                         <div className="flex items-center gap-3">
-                            <Button size="sm" variant="ghost" onClick={() => setIsAuthModalOpen(true)}>
-                                Log In
-                            </Button>
                             <Link to="/booking">
                                 <Button size="sm" variant="primary" className="shadow-lg shadow-green-500/20">Book Now</Button>
                             </Link>
@@ -96,11 +91,6 @@ export const Navbar = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            <AuthModal
-                isOpen={isAuthModalOpen}
-                onClose={() => setIsAuthModalOpen(false)}
-            />
         </nav>
     );
 };
