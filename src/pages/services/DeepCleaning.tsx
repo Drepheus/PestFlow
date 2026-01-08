@@ -3,6 +3,8 @@ import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { ArrowRight, Sparkles, Droplets } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ServiceBlogSection } from '../../components/ui/ServiceBlogSection';
+import deepCleanImg from '../../assets/blog/deep-clean.png';
 
 export const DeepCleaning = () => {
     const navigate = useNavigate();
@@ -80,6 +82,20 @@ export const DeepCleaning = () => {
                     </div>
                 </div>
             </section>
+
+            <ServiceBlogSection
+                title="The Hidden Health Benefits of Deep Cleaning"
+                subtitle="Wellness"
+                imageSrc={deepCleanImg}
+                imageAlt="Sparkling clean modern kitchen faucet"
+                content={
+                    <>
+                        <p>It's not just about aesthetics. Over time, homes accumulate dust mites, pet dander, and microscopic allergens that settle into carpets, upholstery, and air vents. A standard weekly clean often misses these deep-seated pollutants.</p>
+                        <p>Our deep cleaning service acts as a "reset button" for your home's hygiene. By using HEPA-filter vacuums and hospital-grade disinfectants on high-touch surfaces, we significantly improve your indoor air quality.</p>
+                        <p className="font-semibold text-white">Breathe easier and live healthier starting today.</p>
+                    </>
+                }
+            />
         </div>
     );
 };

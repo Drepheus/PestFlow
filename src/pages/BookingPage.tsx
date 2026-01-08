@@ -4,7 +4,7 @@ import { useBooking } from '../context/BookingContext';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
-import { ArrowLeft, Check, Loader2, CreditCard, Lock, Smartphone, X, Sparkles, Home } from 'lucide-react';
+import { ArrowLeft, Check, Loader2, X, Sparkles, Home } from 'lucide-react';
 import { type ServiceType, type UnitSize, type AddOnType, PRICING } from '../types';
 import { isValidZipCode } from '../utils/validation';
 
@@ -31,28 +31,38 @@ const LocationStep = () => {
             <h2 className="text-2xl font-bold text-white">Where do you need cleaning?</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
-                    label="Zip Code"
-                    value={state.zip}
-                    onChange={(e) => {
-                        updateState({ zip: e.target.value });
-                        setError('');
-                    }}
-                    placeholder="85001"
+                    label="Street Address"
+                    value={state.address}
+                    onChange={(e) => updateState({ address: e.target.value })}
+                    placeholder="123 Main St"
                     required
                 />
-                <div className="space-y-1">
-                    <label className="text-sm font-medium text-gray-400">City</label>
-                    <select
-                        value={state.city}
-                        onChange={(e) => updateState({ city: e.target.value })}
-                        className="w-full h-12 px-4 rounded-lg bg-[#18181b] border border-[#3f3f46] text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white transition-all appearance-none"
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium text-gray-400">City</label>
+                        <select
+                            value={state.city}
+                            onChange={(e) => updateState({ city: e.target.value })}
+                            className="w-full h-12 px-4 rounded-lg bg-[#18181b] border border-[#3f3f46] text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white transition-all appearance-none"
+                            required
+                        >
+                            <option value="" disabled>Select City</option>
+                            {['Phoenix', 'Scottsdale', 'Mesa', 'Chandler', 'Gilbert', 'Glendale', 'Tempe', 'Peoria', 'Surprise', 'Avondale', 'Goodyear', 'Buckeye', 'Queen Creek'].map(city => (
+                                <option key={city} value={city}>{city}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <Input
+                        label="Zip Code"
+                        value={state.zip}
+                        onChange={(e) => {
+                            updateState({ zip: e.target.value });
+                            setError('');
+                        }}
+                        placeholder="85001"
                         required
-                    >
-                        <option value="" disabled>Select City</option>
-                        {['Phoenix', 'Scottsdale', 'Mesa', 'Chandler', 'Gilbert', 'Glendale', 'Tempe', 'Peoria', 'Surprise', 'Avondale', 'Goodyear', 'Buckeye', 'Queen Creek'].map(city => (
-                            <option key={city} value={city}>{city}</option>
-                        ))}
-                    </select>
+                    />
                 </div>
 
                 {error && (
@@ -61,7 +71,7 @@ const LocationStep = () => {
                     </p>
                 )}
 
-                <Button type="submit" fullWidth variant="accent" disabled={!state.zip || !state.city}>
+                <Button type="submit" fullWidth variant="accent" disabled={!state.zip || !state.city || !state.address}>
                     Continue
                 </Button>
             </form>
@@ -259,7 +269,7 @@ const AddOnStep = () => {
 };
 
 const ScheduleStep = () => {
-    const { nextStep } = useBooking();
+    const { updateState, nextStep } = useBooking();
 
     // Generate relative dates
     const dates = useMemo(() => {
@@ -285,6 +295,14 @@ const ScheduleStep = () => {
     const times = ['8:00 AM - 11:00 AM', '11:00 AM - 2:00 PM', '2:00 PM - 5:00 PM'];
     const [selectedDate, setSelectedDate] = useState<string>(dates[0].full);
     const [selectedTime, setSelectedTime] = useState(times[0]);
+
+    const handleNext = () => {
+        updateState({
+            date: new Date(selectedDate),
+            time: selectedTime
+        });
+        nextStep();
+    };
 
     return (
         <div className="space-y-6">
@@ -353,7 +371,7 @@ const ScheduleStep = () => {
                 </div>
             </div>
 
-            <Button fullWidth variant="accent" onClick={nextStep}>Proceed to Payment</Button>
+            <Button fullWidth variant="accent" onClick={handleNext}>Proceed to Payment</Button>
         </div>
     );
 };
@@ -423,15 +441,65 @@ const ContactStep = () => {
 
 const CheckoutStep = () => {
     const { state } = useBooking();
-    const [paymentMethod, setPaymentMethod] = useState<'card' | 'apple' | 'google'>('card');
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Price Calculations
     const basePrice = PRICING[state.serviceType]?.[state.unitSize] || 0;
     const addOnsPrice = state.addOns.reduce((acc, curr) => acc + (PRICING.addons[curr] || 0), 0);
     const total = basePrice + addOnsPrice;
 
+    // Configuration
+    const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/dRm6oH2XPaJN82N0HSdfG0h';
+    // PASTE YOUR GOOGLE SHEETS WEB APP URL HERE
+    const GOOGLE_SHEETS_URL = 'https://sheetdb.io/api/v1/nonxdgios85e1';
+
+    const handlePayment = async () => {
+        if (!termsAccepted || isSubmitting) return;
+        setIsSubmitting(true);
+
+        // 1. Submit to Google Sheets (SheetDB)
+        if (GOOGLE_SHEETS_URL) {
+            try {
+                // Flatten data for the spreadsheet
+                const sheetData = {
+                    Timestamp: new Date().toLocaleString(),
+                    Status: 'Pending Deposit',
+                    Name: `${state.contact.firstName} ${state.contact.lastName}`,
+                    Email: state.contact.email,
+                    Phone: state.contact.phone,
+                    Address: `${state.address}, ${state.city} ${state.zip}`,
+                    Service: state.serviceType,
+                    Unit: state.unitSize,
+                    Addons: state.addOns.join(', '),
+                    Date: state.date?.toString(),
+                    Time: state.time,
+                    Total: total
+                };
+
+                await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(sheetData)
+                });
+            } catch (error) {
+                console.error("Booking save failed", error);
+            }
+        }
+
+        // 2. Redirect to Stripe
+        const bookingRef = `${state.serviceType}_${state.unitSize}_${state.addOns.length}Addons`;
+        const params = new URLSearchParams({
+            prefilled_email: state.contact.email,
+            client_reference_id: bookingRef.substring(0, 200)
+        });
+
+        window.location.href = `${STRIPE_PAYMENT_LINK}?${params.toString()}`;
+    };
+
     const DEPOSIT_AMOUNT = 50;
     const remaining = total - DEPOSIT_AMOUNT;
-    const [termsAccepted, setTermsAccepted] = useState(false);
+
 
     return (
         <div className="space-y-6">
@@ -486,78 +554,7 @@ const CheckoutStep = () => {
                 </div>
             </div>
 
-            <div className="space-y-4">
-                <h3 className="text-lg font-bold text-white">Choose Payment Method</h3>
-                <div className="grid grid-cols-3 gap-3">
-                    <button
-                        onClick={() => setPaymentMethod('card')}
-                        className={`p-4 rounded-xl border flex flex-col items-center gap-3 transition-all duration-300 ${paymentMethod === 'card'
-                            ? 'bg-gradient-to-br from-green-500/20 to-green-900/10 border-green-500/50 text-white shadow-[0_0_20px_rgba(34,197,94,0.15)] ring-1 ring-green-500/50'
-                            : 'bg-[#18181b] text-gray-500 border-[#27272a] hover:bg-[#202023] hover:border-[#3f3f46]'}`}
-                    >
-                        <CreditCard size={24} className={paymentMethod === 'card' ? 'text-green-400' : 'text-gray-500'} />
-                        <span className="text-xs font-bold tracking-wide">Card</span>
-                    </button>
-                    <button
-                        onClick={() => setPaymentMethod('apple')}
-                        className={`p-4 rounded-xl border flex flex-col items-center gap-3 transition-all duration-300 ${paymentMethod === 'apple'
-                            ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/50 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]'
-                            : 'bg-[#18181b] text-gray-500 border-[#27272a] hover:bg-[#202023] hover:border-[#3f3f46]'}`}
-                    >
-                        <Smartphone size={24} className={paymentMethod === 'apple' ? 'text-white' : 'text-gray-500'} />
-                        <span className="text-xs font-bold tracking-wide">Apple Pay</span>
-                    </button>
-                    <button
-                        onClick={() => setPaymentMethod('google')}
-                        className={`p-4 rounded-xl border flex flex-col items-center gap-3 transition-all duration-300 ${paymentMethod === 'google'
-                            ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/50 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]'
-                            : 'bg-[#18181b] text-gray-500 border-[#27272a] hover:bg-[#202023] hover:border-[#3f3f46]'}`}
-                    >
-                        <div className={`h-6 w-6 rounded-full border border-current flex items-center justify-center font-bold text-[10px] ${paymentMethod === 'google' ? 'text-white' : 'text-gray-500'}`}>G</div>
-                        <span className="text-xs font-bold tracking-wide">Google Pay</span>
-                    </button>
-                </div>
 
-                {paymentMethod === 'card' && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-[#18181b] border border-[#333] rounded-xl p-5 space-y-4 relative overflow-hidden"
-                    >
-                        <div className="absolute top-0 right-0 p-3 opacity-5 pointer-events-none">
-                            <CreditCard size={100} />
-                        </div>
-
-                        <div className="space-y-1">
-                            <label className="text-xs text-gray-400 ml-1">Card Number</label>
-                            <div className="relative">
-                                <Input placeholder="0000 0000 0000 0000" className="pl-10 font-mono" />
-                                <CreditCard className="absolute left-3 top-3.5 text-gray-500" size={16} />
-                                <Lock className="absolute right-3 top-3.5 text-green-500/50" size={16} />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-1">
-                                <label className="text-xs text-gray-400 ml-1">Expiry</label>
-                                <Input placeholder="MM / YY" className="text-center font-mono" />
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-xs text-gray-400 ml-1">CVC</label>
-                                <Input placeholder="123" className="text-center font-mono" />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold pt-2">
-                            <div className="flex -space-x-1">
-                                <div className="w-6 h-4 bg-gray-600 rounded"></div>
-                                <div className="w-6 h-4 bg-gray-500 rounded"></div>
-                            </div>
-                            Powered by Stripe
-                        </div>
-                    </motion.div>
-                )}
-            </div>
 
             {/* Terms Checkbox */}
             <div className="flex items-start gap-3 p-4 bg-[#18181b] rounded-xl border border-[#333]">
@@ -571,16 +568,17 @@ const CheckoutStep = () => {
                     <Check size={14} className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
                 </div>
                 <div className="text-sm text-gray-400">
-                    I agree to the <span className="text-green-500 cursor-pointer hover:underline">Terms of Service</span>. I understand the <strong>${DEPOSIT_AMOUNT} deposit</strong> is non-refundable if cancelled less than 24 hours before the appointment.
+                    I agree to the <a href="/terms" target="_blank" className="text-green-500 cursor-pointer hover:underline">Terms of Service</a>. I understand the <strong>${DEPOSIT_AMOUNT} deposit</strong> is non-refundable if cancelled less than 24 hours before the appointment.
                 </div>
             </div>
 
             <button
-                disabled={!termsAccepted}
-                className={`w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-5 text-lg transition-all transform hover:scale-[1.01] shadow-[0_0_30px_rgba(22,163,74,0.4)] ring-1 ring-white/10 ${!termsAccepted ? 'opacity-50 cursor-not-allowed filter grayscale' : 'hover:from-green-500 hover:to-emerald-500'}`}
+                onClick={handlePayment}
+                disabled={!termsAccepted || isSubmitting}
+                className={`w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-5 text-lg transition-all transform hover:scale-[1.01] shadow-[0_0_30px_rgba(22,163,74,0.4)] ring-1 ring-white/10 ${(!termsAccepted || isSubmitting) ? 'opacity-50 cursor-not-allowed filter grayscale' : 'hover:from-green-500 hover:to-emerald-500'}`}
             >
-                <div className={`absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-1000 ${termsAccepted ? 'group-hover:translate-x-[100%]' : ''}`}></div>
-                Pay ${DEPOSIT_AMOUNT}.00 Deposit
+                <div className={`absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-1000 ${termsAccepted && !isSubmitting ? 'group-hover:translate-x-[100%]' : ''}`}></div>
+                {isSubmitting ? 'Processing...' : `Pay $${DEPOSIT_AMOUNT}.00 Deposit`}
             </button>
 
             <div className="flex items-center justify-center gap-4 text-xs text-gray-500">

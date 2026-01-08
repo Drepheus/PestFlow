@@ -7,10 +7,12 @@ export type AddOnType = 'oven' | 'fridge' | 'windows' | 'same-day';
 export interface BookingState {
   city: string;
   zip: string;
+  address: string;
   serviceType: ServiceType;
   unitSize: UnitSize;
   addOns: AddOnType[];
   date: Date | null;
+  time: string;
   contact: {
     firstName: string;
     lastName: string;
@@ -23,10 +25,12 @@ export interface BookingState {
 export const INITIAL_BOOKING_STATE: BookingState = {
   city: '',
   zip: '',
+  address: '',
   serviceType: 'move-out',
   unitSize: '1bed1bath',
   addOns: [],
   date: null,
+  time: '',
   contact: {
     firstName: '',
     lastName: '',
@@ -38,7 +42,7 @@ export const INITIAL_BOOKING_STATE: BookingState = {
 
 export const PRICING = {
   'move-out': {
-    'studio': 125,
+    'studio': 80,
     '1bed1bath': 150,
     '2bed1bath': 200,
     '2bed2bath': 250,

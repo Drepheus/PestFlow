@@ -3,6 +3,8 @@ import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { ArrowRight, Star, Calendar, RefreshCcw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ServiceBlogSection } from '../../components/ui/ServiceBlogSection';
+import airbnbImg from '../../assets/blog/airbnb.png';
 
 export const AirbnbTurnover = () => {
     const navigate = useNavigate();
@@ -83,6 +85,21 @@ export const AirbnbTurnover = () => {
                     </div>
                 </div>
             </section>
+
+            <ServiceBlogSection
+                title="Superhost Secrets: Consistency is King"
+                subtitle="Host Tips"
+                imageSrc={airbnbImg}
+                imageAlt="Luxury Airbnb Bedroom"
+                reverse
+                content={
+                    <>
+                        <p>In the competitive world of Short Term Rentals, cleanliness is the number one factor affecting guest reviews. A single stray hair or dusty shelf can cost you that 5-star rating.</p>
+                        <p>Our Airbnb turnover service isn't just a quick tidy-up. We act as your eyes and ears on the ground, staging your property to "hotel standard" every single time. From perfectly folded towels to crisp, wrinkle-free linens, we ensure that "wow" factor when your guests walk in.</p>
+                        <p className="font-semibold text-white">We help you secure Superhost status by delivering perfection on repeat.</p>
+                    </>
+                }
+            />
         </div>
     );
 };

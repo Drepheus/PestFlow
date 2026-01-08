@@ -3,6 +3,8 @@ import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { CheckCircle2, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ServiceBlogSection } from '../../components/ui/ServiceBlogSection';
+import moveOutImg from '../../assets/blog/move-out.png';
 
 export const MoveOutCleaning = () => {
     const navigate = useNavigate();
@@ -80,6 +82,20 @@ export const MoveOutCleaning = () => {
                     </div>
                 </div>
             </section>
+
+            <ServiceBlogSection
+                title="The Deposit Guarantee Checklist"
+                subtitle="Expert Insight"
+                imageSrc={moveOutImg}
+                imageAlt="Clean apartment living room"
+                content={
+                    <>
+                        <p>Moving is stressful enough without worrying about your security deposit. Property managers are notoriously strict, looking for dust on baseboards, grease in ovens, and spots on windows.</p>
+                        <p>Our professional move-out cleaning service is designed around the standard inspection checklists used by major real estate agencies. We don't just "clean" - we restore the property to its original condition, handling the time-consuming deep cleaning tasks that most tenants dread.</p>
+                        <p className="font-semibold text-white">Result: You get your money back, and your landlord stays happy.</p>
+                    </>
+                }
+            />
 
             {/* Pricing CTA */}
             <section className="py-20 text-center">
