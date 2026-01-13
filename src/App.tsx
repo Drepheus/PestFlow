@@ -14,6 +14,7 @@ import { MoveOutCleaning } from './pages/services/MoveOutCleaning';
 import { AirbnbTurnover } from './pages/services/AirbnbTurnover';
 import { DeepCleaning } from './pages/services/DeepCleaning';
 import { ApplianceCleaning } from './pages/services/ApplianceCleaning';
+import { BlogPage } from './pages/BlogPage';
 import { AIAssistant } from './components/AIAssistant';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
               <Route path="/services/airbnb" element={<AirbnbTurnover />} />
               <Route path="/services/deep-clean" element={<DeepCleaning />} />
               <Route path="/services/appliance" element={<ApplianceCleaning />} />
+              <Route path="/blog" element={<BlogPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="*" element={<NotFoundPage />} />

@@ -229,6 +229,20 @@ export const HomePage = () => {
                 </div>
             </section>
 
+            {/* Trusted By Section */}
+            <section className="py-10 bg-[#111113] border-b border-[#27272a]">
+                <div className="container mx-auto px-4">
+                    <p className="text-center text-gray-500 text-xs font-bold tracking-[0.2em] uppercase mb-8">Trusted by Phoenix's Top Property Managers</p>
+                    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                        {/* Placeholder Logos - In a real app these would be SVGs */}
+                        <div className="flex items-center gap-2 text-white font-bold text-xl"><Building2 className="text-emerald-500" /> Apex Living</div>
+                        <div className="flex items-center gap-2 text-white font-bold text-xl"><Home className="text-blue-500" /> StaySimple</div>
+                        <div className="flex items-center gap-2 text-white font-bold text-xl"><Key className="text-purple-500" /> KeyHost</div>
+                        <div className="flex items-center gap-2 text-white font-bold text-xl"><ShieldCheck className="text-gray-400" /> SecureStays</div>
+                    </div>
+                </div>
+            </section>
+
             {/* Features Grid - Light Mode */}
             <section className="py-20 bg-white border-t border-gray-100">
                 <div className="container mx-auto px-4">
@@ -265,19 +279,43 @@ export const HomePage = () => {
                 </div>
             </section>
 
-            {/* 24/7 vs 9-5 Comparison */}
-            <section className="py-24 bg-gray-50 border-y border-gray-200">
-                <div className="container mx-auto px-4">
+            <section className="py-24 bg-gray-50 border-y border-gray-200 relative overflow-hidden">
+                <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Why Phoenix Hosts Choose ReadyCleans</h2>
                         <p className="text-gray-500">Deadlines don't wait. Neither do we.</p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        {/* ReadyCleans */}
-                        <div className="relative transform md:-translate-y-4">
-                            <div className="absolute inset-0 bg-green-600/10 blur-xl rounded-2xl"></div>
-                            <Card className="relative bg-white border-green-100 p-8 shadow-xl ring-1 ring-green-50">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                        {/* Left: Image Grid */}
+                        <div className="relative">
+                            <div className="relative z-10 grid grid-cols-2 gap-4">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6 }}
+                                    className="relative rounded-2xl overflow-hidden shadow-2xl h-64 md:h-80"
+                                >
+                                    <img src="/images/interior.png" alt="Modern clean interior" className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                                </motion.div>
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    className="relative rounded-2xl overflow-hidden shadow-2xl h-64 md:h-80 mt-12"
+                                >
+                                    <img src="/images/supplies.png" alt="Premium supplies" className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                                </motion.div>
+                            </div>
+
+                            {/* Decorative Blob */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-200/20 blur-[100px] rounded-full -z-0"></div>
+                        </div>
+
+                        {/* Right: Content */}
+                        <div className="space-y-8">
+                            {/* ReadyCleans */}
+                            <Card className="relative bg-white border-green-100 p-8 shadow-xl ring-1 ring-green-50 transform hover:-translate-y-1 transition-transform duration-300">
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="p-3 rounded-full bg-green-50 text-green-600">
                                         <Sparkles size={32} />
@@ -286,46 +324,29 @@ export const HomePage = () => {
                                 </div>
                                 <h3 className="text-2xl font-bold text-gray-900 mb-4">On-Demand Reliability</h3>
                                 <ul className="space-y-4">
-                                    <li className="flex items-center gap-3 text-gray-700 font-medium">
-                                        <CheckCircle2 className="text-green-500" size={20} /> Instant Booking Online
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-700 font-medium">
-                                        <CheckCircle2 className="text-green-500" size={20} /> Weekends & Holidays Included
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-700 font-medium">
-                                        <CheckCircle2 className="text-green-500" size={20} /> Fixed Flat-Rate Pricing
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-700 font-medium">
-                                        <CheckCircle2 className="text-green-500" size={20} /> Automated Confirmations
-                                    </li>
+                                    {[
+                                        "Instant Booking Online",
+                                        "Weekends & Holidays Included",
+                                        "Fixed Flat-Rate Pricing",
+                                        "Automated Confirmations"
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-gray-700 font-medium">
+                                            <CheckCircle2 className="text-green-500 flex-shrink-0" size={20} /> {item}
+                                        </li>
+                                    ))}
                                 </ul>
                             </Card>
-                        </div>
 
-                        {/* Traditional */}
-                        <Card className="bg-white border-gray-200 p-8 opacity-70 hover:opacity-100 transition-opacity">
-                            <div className="flex justify-between items-start mb-6">
-                                <div className="p-3 rounded-full bg-gray-100 text-gray-500">
-                                    <Clock size={32} />
+                            {/* Traditional */}
+                            <div className="pl-6 border-l-2 border-gray-200">
+                                <h3 className="text-xl font-bold text-gray-400 mb-2">The Old Way</h3>
+                                <div className="space-y-2">
+                                    <p className="flex items-center gap-2 text-gray-400 text-sm"><XCircle size={16} /> Quote forms & Waiting</p>
+                                    <p className="flex items-center gap-2 text-gray-400 text-sm"><XCircle size={16} /> Hourly billing surprises</p>
+                                    <p className="flex items-center gap-2 text-gray-400 text-sm"><XCircle size={16} /> Inconsistent quality</p>
                                 </div>
-                                <span className="px-3 py-1 rounded-full bg-gray-100 text-xs font-bold text-gray-500 uppercase">Maid Services</span>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-4">The Old Way</h3>
-                            <ul className="space-y-4">
-                                <li className="flex items-center gap-3 text-gray-500">
-                                    <XCircle className="text-red-400" size={20} /> Quote forms & Waiting
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-500">
-                                    <XCircle className="text-red-400" size={20} /> Hourly billing surprises
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-500">
-                                    <XCircle className="text-red-400" size={20} /> Limited availability
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-500">
-                                    <XCircle className="text-red-400" size={20} /> Inconsistent quality
-                                </li>
-                            </ul>
-                        </Card>
+                        </div>
                     </div>
                 </div>
 
