@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import initialBlogs from '../../data/blogs.json';
 
 interface BlogPost {
     id: string;
@@ -23,14 +24,23 @@ export const BlogPostPage = () => {
 
     useEffect(() => {
         const fetchPost = async () => {
+            // 1. First try to find it in our static file (fastest)
+            const staticPost = (initialBlogs as BlogPost[]).find(b => b.id === id);
+            if (staticPost) {
+                setPost(staticPost);
+                setLoading(false);
+            }
+
+            // 2. Try to fetch fresh data (in case of updates)
             try {
-                // In production, use env var. For now, localhost is fine.
                 const res = await fetch(`http://localhost:4242/api/blogs/${id}`);
-                if (!res.ok) throw new Error('Post not found');
-                const data = await res.json();
-                setPost(data);
+                if (res.ok) {
+                    const data = await res.json();
+                    setPost(data);
+                }
             } catch (error) {
-                console.error(error);
+                // If fetch fails, we stick with staticPost if we found it
+                console.log("Using static blog data");
             } finally {
                 setLoading(false);
             }
