@@ -1,0 +1,50 @@
+[
+    {
+        "id": "1",
+        "title": "The Ultimate Move-Out Cleaning Checklist",
+        "slug": "ultimate-move-out-cleaning-checklist",
+        "excerpt": "Don't lose your deposit! Here's everything your landlord checks during the final walkthrough.",
+        "content": "# The Ultimate Move-Out Cleaning Checklist\n\nMoving out can be stressful, but getting your security deposit back shouldn't be. Here is the comprehensive checklist we use at ReadyCleans...\n\n## The Kitchen\n- Oven interior/exterior\n- Refrigerator detailed\n- Cabinets inside and out\n\n## The Bathroom\n- Grout scrubbing\n- Shower glass descaling\n\n(Full article content would go here...)",
+        "date": "2026-01-12",
+        "author": "Sarah Jenkins",
+        "category": "Move-Out",
+        "readTime": "5 min read",
+        "image": "https://images.unsplash.com/photo-1581578731117-104f2a412727?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+        "id": "2",
+        "title": "5 Tips to Boost Your Airbnb Ratings",
+        "slug": "5-tips-boost-airbnb-ratings",
+        "excerpt": "Cleanliness is the #1 factor for 5-star reviews. Learn how to impress your guests from the moment they walk in.",
+        "content": "# 5 Tips to Boost Your Airbnb Ratings\n\nAs a host, your reviews are your lifeline. Here is how professional cleaning makes the difference...",
+        "date": "2026-01-08",
+        "author": "Mike Ross",
+        "category": "Hosting",
+        "readTime": "4 min read",
+        "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=2668&auto=format&fit=crop"
+    },
+    {
+        "id": "3",
+        "title": "Why Deep Cleaning Matters for Health",
+        "slug": "why-deep-cleaning-matters-health",
+        "excerpt": "It's not just about looks. Deep cleaning removes hidden allergens and bacteria that regular cleaning misses.",
+        "content": "# Why Deep Cleaning Matters\n\nDust mites, allergens, and hidden mold can affect your health...",
+        "date": "2025-12-28",
+        "author": "Dr. Emily Chen",
+        "category": "Health",
+        "readTime": "6 min read",
+        "image": "https://images.unsplash.com/photo-1584622050111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+        "id": "4",
+        "title": "Eco-Friendly Cleaning: Myth vs. Fact",
+        "slug": "eco-friendly-cleaning-myth-vs-fact",
+        "excerpt": "Can green products really clean as well as harsh chemicals? We bust common myths about eco-cleaning.",
+        "content": "# Eco-Friendly Cleaning\n\nMany people believe that without bleach, it's not clean. Let's look at the science...",
+        "date": "2025-12-15",
+        "author": "James Wilson",
+        "category": "Sustainability",
+        "readTime": "3 min read",
+        "image": "https://images.unsplash.com/photo-1527515545081-5db817172677?q=80&w=2070&auto=format&fit=crop"
+    }
+]
