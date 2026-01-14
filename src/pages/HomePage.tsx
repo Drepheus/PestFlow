@@ -6,7 +6,7 @@ import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
 
 import { TestimonialsCarousel } from '../components/ui/TestimonialsCarousel';
-import { ShieldCheck, ArrowRight, Star, CheckCircle2, DollarSign, Building2, Home, Clock, XCircle, Sparkles, Key } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Star, CheckCircle2, DollarSign, Building2, Home, XCircle, Sparkles, Key } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
 
 import { isValidZipCode } from '../utils/validation';
