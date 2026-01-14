@@ -117,6 +117,22 @@ const generateBlogPost = async () => {
             sendToSlack("System Event: Blog Generated", `New Blog Published: ${newBlog.title}`, 0);
         }
 
+        // 6. AUTO-DEPLOY: Commit and Push to GitHub
+        // This makes it appear on Vercel automatically!
+        const { exec } = await import('child_process');
+        exec('git add data/blogs.json', (err) => {
+            if (err) return console.error('Git Add Failed:', err);
+
+            exec(`git commit -m "content: Auto-published '${newBlog.title}'"`, (err) => {
+                if (err) return console.error('Git Commit Failed:', err);
+
+                exec('git push origin main', (err) => {
+                    if (err) console.error('Git Push Failed:', err);
+                    else console.log('[Blog Engine] 🚀 Successfully pushed to live site!');
+                });
+            });
+        });
+
     } catch (error) {
         console.error('[Blog Engine] Generation failed:', error);
     }
