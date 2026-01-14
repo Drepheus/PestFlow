@@ -78,7 +78,7 @@ export const HomePage = () => {
 
                     {/* Gradient Accents */}
                     <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-green-600/20 rounded-full blur-[120px] mix-blend-screen"></div>
-                    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] mix-blend-screen"></div>
+                    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[100px] mix-blend-screen"></div>
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10">
@@ -236,7 +236,7 @@ export const HomePage = () => {
                     <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
                         {/* Placeholder Logos - In a real app these would be SVGs */}
                         <div className="flex items-center gap-2 text-white font-bold text-xl"><Building2 className="text-emerald-500" /> Apex Living</div>
-                        <div className="flex items-center gap-2 text-white font-bold text-xl"><Home className="text-blue-500" /> StaySimple</div>
+                        <div className="flex items-center gap-2 text-white font-bold text-xl"><Home className="text-emerald-400" /> StaySimple</div>
                         <div className="flex items-center gap-2 text-white font-bold text-xl"><Key className="text-purple-500" /> KeyHost</div>
                         <div className="flex items-center gap-2 text-white font-bold text-xl"><ShieldCheck className="text-gray-400" /> SecureStays</div>
                     </div>
@@ -372,7 +372,7 @@ export const HomePage = () => {
                             </p>
                         </Card>
                         <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-blue-500/50 transition-colors flex flex-col items-center text-center md:items-start md:text-left">
-                            <Key className="text-blue-500 mb-4" size={32} />
+                            <Key className="text-emerald-500 mb-4" size={32} />
                             <h3 className="text-xl font-bold text-white mb-2">Airbnb Hosts</h3>
                             <p className="text-gray-400 text-sm">
                                 Fast turnovers between guests. We check for damages, restock essentials (if provided), and clean to a 5-star standard.
@@ -388,6 +388,39 @@ export const HomePage = () => {
                     </div>
                 </div>
             </section >
+
+            {/* Visual Checklist Section */}
+            <section className="py-24 bg-[#09090b]">
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Our Standard of Clean</h2>
+                        <p className="text-gray-400">See the difference in the details.</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        {[
+                            { title: "Deep Kitchen Detail", img: "/images/kitchen-detail.png", desc: "Appliances, sinks, and fixtures polished to perfection." },
+                            { title: "Resort-Style Bathrooms", img: "/images/bathroom-detail.png", desc: "Spa-like sanitation for glass, tile, and vanities." },
+                            { title: "Pristine Living Areas", img: "/images/living-detail.png", desc: "Vacuum lines and dust-free surfaces throughout." }
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.2 }}
+                                className="group relative rounded-2xl overflow-hidden h-80"
+                            >
+                                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10"></div>
+                                <img src={item.img} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <div className="absolute bottom-0 left-0 w-full p-6 z-20 bg-gradient-to-t from-black/90 to-transparent">
+                                    <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                                    <p className="text-gray-300 text-sm">{item.desc}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
             {/* How It Works */}
             < section id="how" className="py-24 bg-white relative overflow-hidden" >

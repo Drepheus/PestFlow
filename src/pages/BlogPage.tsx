@@ -55,7 +55,7 @@ export const BlogPage = () => {
 
                 {/* Decorative Gradients */}
                 <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px]"></div>
 
                 <div className="container mx-auto relative z-10 text-center max-w-3xl">
                     <motion.div
@@ -66,7 +66,7 @@ export const BlogPage = () => {
                         <span className="text-emerald-500 font-bold tracking-wider uppercase text-sm mb-4 block">Cleaning Insights</span>
                         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
                             Expert Tips for a <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Spotless Life</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">Spotless Life</span>
                         </h1>
                         <p className="text-gray-400 text-lg leading-relaxed mb-8">
                             Discover the latest trends in cleaning, property maintenance, and hosting.
@@ -142,7 +142,7 @@ export const BlogPage = () => {
 
                     {/* Newsletter / CTA */}
                     <div className="max-w-4xl mx-auto mt-20">
-                        <Card className="bg-gradient-to-r from-emerald-900/20 to-blue-900/20 border-[#27272a] p-12 text-center relative overflow-hidden">
+                        <Card className="bg-gradient-to-r from-emerald-900/20 to-green-900/20 border-[#27272a] p-12 text-center relative overflow-hidden">
                             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
                             <div className="relative z-10">
                                 <h3 className="text-2xl font-bold text-white mb-4">Want more cleaning tips?</h3>
