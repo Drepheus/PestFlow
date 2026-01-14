@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import { Helmet } from 'react-helmet-async';
 import initialBlogs from '../../data/blogs.json';
 
 interface BlogPost {
     id: string;
     title: string;
+    excerpt: string;
     content: string;
     date: string;
     author: string;
@@ -69,6 +71,26 @@ export const BlogPostPage = () => {
 
     return (
         <div className="min-h-screen bg-[#09090b] pb-24">
+            {post && (
+                <Helmet>
+                    <title>{post.title} | ReadyCleans</title>
+                    <meta name="description" content={post.excerpt} />
+
+                    {/* Open Graph / Facebook */}
+                    <meta property="og:type" content="article" />
+                    <meta property="og:title" content={post.title} />
+                    <meta property="og:description" content={post.excerpt} />
+                    <meta property="og:image" content={post.image} />
+                    <meta property="og:url" content={window.location.href} />
+
+                    {/* Twitter */}
+                    <meta name="twitter:card" content="summary_large_image" />
+                    <meta name="twitter:title" content={post.title} />
+                    <meta name="twitter:description" content={post.excerpt} />
+                    <meta name="twitter:image" content={post.image} />
+                </Helmet>
+            )}
+
             {/* Hero Image */}
             <div className="relative h-[60vh] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/50 to-transparent z-10"></div>
