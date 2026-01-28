@@ -1,13 +1,13 @@
 {
-    "autoGenerate": true,
-    "intervalMinutes": 60,
-    "topics": [
-        "Move-Out Cleaning Tips or Checklist",
-        "Airbnb Hosting Guides & Cleaning",
-        "Eco-Friendly Home Maintenance",
-        "Deep Cleaning Hacks",
-        "Property Management Efficiency",
-        "Tenant Security Deposit Tips",
-        "Phoenix Arizona Local Cleaning Advice"
-    ]
+  "autoGenerate": true,
+  "intervalMinutes": 240,
+  "topics": [
+    "Move-Out Cleaning Tips or Checklist",
+    "Airbnb Hosting Guides & Cleaning",
+    "Eco-Friendly Home Maintenance",
+    "Deep Cleaning Hacks",
+    "Property Management Efficiency",
+    "Tenant Security Deposit Tips",
+    "Phoenix Arizona Local Cleaning Advice"
+  ]
 }

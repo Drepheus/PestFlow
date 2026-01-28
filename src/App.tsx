@@ -10,7 +10,7 @@ import { ContactPage } from './pages/ContactPage';
 import { TermsPage } from './pages/TermsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { MoveOutCleaning } from './pages/services/MoveOutCleaning';
+import { StandardCleaning } from './pages/services/StandardCleaning';
 import { AirbnbTurnover } from './pages/services/AirbnbTurnover';
 import { DeepCleaning } from './pages/services/DeepCleaning';
 import { ApplianceCleaning } from './pages/services/ApplianceCleaning';
@@ -29,7 +29,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/booking" element={<BookingPage />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/services/move-out" element={<MoveOutCleaning />} />
+              <Route path="/services/standard" element={<StandardCleaning />} />
               <Route path="/services/airbnb" element={<AirbnbTurnover />} />
               <Route path="/services/deep-clean" element={<DeepCleaning />} />
               <Route path="/services/appliance" element={<ApplianceCleaning />} />

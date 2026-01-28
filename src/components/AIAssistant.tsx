@@ -14,7 +14,7 @@ export const AIAssistant = () => {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { id: '1', text: "Hi! I'm your ReadyCleans AI assistant. I can help with Move-Out or Airbnb turnover pricing, service details, and booking questions. How can I assist you today?", sender: 'ai' }
+        { id: '1', text: "Hi! I'm your ReadyCleans AI assistant. I can help with Standard or Airbnb turnover pricing, service details, and booking questions. How can I assist you today?", sender: 'ai' }
     ]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 

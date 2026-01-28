@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { ArrowRight, Star, Calendar, RefreshCcw } from 'lucide-react';
@@ -11,6 +12,11 @@ export const AirbnbTurnover = () => {
 
     return (
         <div className="min-h-screen bg-[#09090b] pt-20">
+            <Helmet>
+                <title>Airbnb Turnover Cleaning Phoenix | ReadyCleans</title>
+                <meta name="description" content="Professional Airbnb and STR turnover cleaning in Phoenix. Hotel-quality results, synchronized scheduling, and same-day service to keep you Superhost ready." />
+                <link rel="canonical" href="https://readycleans.space/services/airbnb" />
+            </Helmet>
             {/* Hero Section */}
             <section className="relative py-20 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-bl from-green-900/10 to-black pointer-events-none"></div>

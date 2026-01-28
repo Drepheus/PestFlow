@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Card } from '../components/ui/Card';
 import { ArrowRight, Calendar, User, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -40,6 +41,11 @@ export const BlogPage = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-[#09090b]">
+            <Helmet>
+                <title>Blog & Cleaning Insights | ReadyCleans</title>
+                <meta name="description" content="Discover professional cleaning tips, property maintenance advice, and hosting insights from the ReadyCleans experts in Phoenix." />
+                <link rel="canonical" href="https://readycleans.space/blog" />
+            </Helmet>
             {/* Hero Section */}
             <section className="relative pt-32 pb-20 px-4 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#111113] to-[#09090b] z-0"></div>

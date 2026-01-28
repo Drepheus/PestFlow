@@ -19,7 +19,7 @@ export const ApplianceCleaning = () => {
                     <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Appliance <span className="text-emerald-500">Detailing</span></h1>
                     <p className="text-gray-400 text-lg mb-8 leading-relaxed">
                         We offer deep cleaning for Ovens and Refrigerators as optional add-ons to any service.
-                        These can be easily added to your Move-Out or Deep Clean package during booking.
+                        These can be easily added to your Standard or Deep Clean package during booking.
                     </p>
                     <div className="flex justify-center gap-4">
                         <Button variant="secondary" onClick={() => navigate(-1)}>

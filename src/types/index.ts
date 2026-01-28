@@ -1,6 +1,6 @@
-export type ServiceType = 'move-out' | 'airbnb';
+export type ServiceType = 'standard' | 'airbnb';
 
-export type UnitSize = 'studio' | '1bed1bath' | '2bed1bath' | '2bed2bath' | '3bed2bath';
+export type UnitSize = 'studio' | '1bed1bath' | '2bed1bath' | '2bed2bath' | '3bed2bath' | '3bed3bath' | '4bed2bath' | '4bed3bath' | '5bed2bath' | '5bed3bath';
 
 export type AddOnType = 'oven' | 'fridge' | 'windows' | 'same-day';
 
@@ -26,7 +26,7 @@ export const INITIAL_BOOKING_STATE: BookingState = {
   city: '',
   zip: '',
   address: '',
-  serviceType: 'move-out',
+  serviceType: 'standard',
   unitSize: '1bed1bath',
   addOns: [],
   date: null,
@@ -41,19 +41,29 @@ export const INITIAL_BOOKING_STATE: BookingState = {
 };
 
 export const PRICING = {
-  'move-out': {
+  'standard': {
     'studio': 80,
     '1bed1bath': 150,
     '2bed1bath': 200,
     '2bed2bath': 250,
-    '3bed2bath': 300
+    '3bed2bath': 300,
+    '3bed3bath': 350,
+    '4bed2bath': 350,
+    '4bed3bath': 400,
+    '5bed2bath': 400,
+    '5bed3bath': 450
   },
   'airbnb': {
     'studio': 80,
     '1bed1bath': 130,
     '2bed1bath': 180,
     '2bed2bath': 250,
-    '3bed2bath': 300
+    '3bed2bath': 300,
+    '3bed3bath': 350,
+    '4bed2bath': 350,
+    '4bed3bath': 400,
+    '5bed2bath': 400,
+    '5bed3bath': 450
   },
   'addons': {
     'oven': 35,
@@ -62,3 +72,4 @@ export const PRICING = {
     'same-day': 75
   }
 };
+

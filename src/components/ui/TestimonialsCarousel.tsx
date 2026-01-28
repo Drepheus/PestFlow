@@ -10,7 +10,7 @@ const testimonials = [
         name: "Sarah Jenkins",
         role: "Renter",
         location: "Scottsdale, AZ",
-        text: "I was terrified of not getting my deposit back. ReadyCleans faired better than I could have imagined. Landlord was impressed and I got the full refund!",
+        text: "I needed a reliable regular cleaning service for my apartment. ReadyCleans exceeded my expectations. The attention to detail is remarkable!",
         rating: 5,
         type: "residential"
     },
@@ -28,7 +28,7 @@ const testimonials = [
         name: "Elena Rodriguez",
         role: "Property Manager",
         company: "Vista Apartments",
-        text: "Managing 200 units, move-out season is chaos. ReadyCleans' automated booking and flat-rates make our lives so much easier.",
+        text: "As a property manager, I need cleaners I can trust. ReadyCleans' automated booking and flat-rates make my life so much easier.",
         rating: 5,
         type: "commercial"
     },

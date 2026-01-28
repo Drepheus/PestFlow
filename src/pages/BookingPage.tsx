@@ -84,9 +84,9 @@ const ServiceStep = () => {
 
     const services: { id: ServiceType; label: string; description: string; icon: any }[] = [
         {
-            id: 'move-out',
-            label: 'Move-Out / End-of-Lease',
-            description: 'Standard inspection-ready clean. Kitchen, bathrooms, floors, baseboards. No trash removal.',
+            id: 'standard',
+            label: 'Standard Cleaning',
+            description: 'High-quality residential cleaning for your home or apartment. Kitchen, bathrooms, floors, and dusting.',
             icon: Home
         },
         {
@@ -148,6 +148,11 @@ const SizeStep = () => {
         { id: '2bed1bath', label: '2 Bed / 1 Bath' },
         { id: '2bed2bath', label: '2 Bed / 2 Bath' },
         { id: '3bed2bath', label: '3 Bed / 2 Bath' },
+        { id: '3bed3bath', label: '3 Bed / 3 Bath' },
+        { id: '4bed2bath', label: '4 Bed / 2 Bath' },
+        { id: '4bed3bath', label: '4 Bed / 3 Bath' },
+        { id: '5bed2bath', label: '5 Bed / 2 Bath' },
+        { id: '5bed3bath', label: '5 Bed / 3 Bath' },
     ];
 
     return (
@@ -516,7 +521,7 @@ const CheckoutStep = () => {
             <div className="bg-[#18181b] border border-[#333] p-6 rounded-xl space-y-4 shadow-lg">
                 <div className="flex justify-between">
                     <span className="text-gray-400">Service</span>
-                    <span className="font-semibold text-white capitalize">{state.serviceType === 'move-out' ? 'Move-Out Clean' : 'Airbnb Turnover'}</span>
+                    <span className="font-semibold text-white capitalize">{state.serviceType === 'standard' ? 'Standard Clean' : 'Airbnb Turnover'}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-gray-400">Unit Size</span>

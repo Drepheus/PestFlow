@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { CheckCircle2, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
@@ -6,11 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { ServiceBlogSection } from '../../components/ui/ServiceBlogSection';
 import moveOutImg from '../../assets/blog/move-out.png';
 
-export const MoveOutCleaning = () => {
+export const StandardCleaning = () => {
     const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-[#09090b] pt-20">
+            <Helmet>
+                <title>Standard Residential Cleaning | ReadyCleans Phoenix</title>
+                <meta name="description" content="Premium standard house cleaning in Phoenix. Professional service, 52-point integrity check, and flat-rate pricing for homeowners and residents." />
+                <link rel="canonical" href="https://readycleans.space/services/standard" />
+            </Helmet>
             {/* Hero Section */}
             <section className="relative py-20 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-black pointer-events-none"></div>
@@ -21,12 +27,12 @@ export const MoveOutCleaning = () => {
                         transition={{ duration: 0.6 }}
                         className="max-w-3xl mx-auto text-center"
                     >
-                        <span className="text-emerald-500 font-bold tracking-wider uppercase text-sm mb-4 block">Deposit Back Guarantee</span>
+                        <span className="text-emerald-500 font-bold tracking-wider uppercase text-sm mb-4 block">100% Satisfaction Guaranteed</span>
                         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                            Move-Out <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-600">Perfection.</span>
+                            Standard <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-600">Perfection.</span>
                         </h1>
                         <p className="text-xl text-gray-400 mb-8 leading-relaxed">
-                            The comprehensive cleaning solution designed to satisfy the strictest property managers and landlords.
+                            A premium residential cleaning solution designed for homeowners and busy professionals who value a pristine living space.
                         </p>
                         <Button
                             size="lg"
@@ -34,7 +40,7 @@ export const MoveOutCleaning = () => {
                             onClick={() => navigate('/booking')}
                             className="shadow-[0_0_30px_rgba(16,185,129,0.3)]"
                         >
-                            Book Move-Out Clean <ArrowRight className="ml-2" size={18} />
+                            Book Standard Clean <ArrowRight className="ml-2" size={18} />
                         </Button>
                     </motion.div>
                 </div>
@@ -49,14 +55,14 @@ export const MoveOutCleaning = () => {
                                 <h3 className="text-2xl font-bold text-white mb-6">What's Included</h3>
                                 <ul className="space-y-4">
                                     {[
-                                        "Inside all cabinets and drawers",
-                                        "Inside oven and microwave",
-                                        "Inside fridge (optional add-on)",
-                                        "Baseboards detailed hand-wash",
-                                        "Ceiling fans and light fixtures",
-                                        "Shower grout and tile scrubbing",
-                                        "Window sills and tracks",
-                                        "Deep vacuum and chemical-free mopping"
+                                        "Dusting of all surfaces",
+                                        "Kitchen countertops and exterior appliances",
+                                        "Bathroom sanitation and polishing",
+                                        "Floors vacuumed and mopped",
+                                        "Trash removal to main bins",
+                                        "Mirror and glass cleaning",
+                                        "Light organization of common areas",
+                                        "Premium scent finish (optional)"
                                     ].map((item, i) => (
                                         <li key={i} className="flex items-start gap-3 text-gray-300">
                                             <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
@@ -69,12 +75,12 @@ export const MoveOutCleaning = () => {
                                 <Card className="bg-[#18181b] border-[#27272a] h-full p-8 shadow-2xl relative overflow-hidden">
                                     <div className="absolute top-0 right-0 p-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
                                     <ShieldCheck className="text-emerald-500 mb-6" size={48} />
-                                    <h3 className="text-xl font-bold text-white mb-3">Checklist Verified</h3>
+                                    <h3 className="text-xl font-bold text-white mb-3">Quality Verified</h3>
                                     <p className="text-gray-400 leading-relaxed mb-6">
-                                        We use standard real estate approved checklists to ensure nothing is missed. If your landlord finds an issue, we return within 24 hours for free.
+                                        Our standard cleaning process is designed to hit 52 points of perfection. If you're not happy with any part of the service, we return within 24 hours for free.
                                     </p>
                                     <div className="flex items-center gap-3 text-sm text-gray-500">
-                                        <Clock size={16} /> Avg. duration: 4-6 hours
+                                        <Clock size={16} /> Avg. duration: 2-4 hours
                                     </div>
                                 </Card>
                             </div>
@@ -84,15 +90,15 @@ export const MoveOutCleaning = () => {
             </section>
 
             <ServiceBlogSection
-                title="The Deposit Guarantee Checklist"
-                subtitle="Expert Insight"
+                title="The Standard of Excellence"
+                subtitle="Home Care"
                 imageSrc={moveOutImg}
-                imageAlt="Clean apartment living room"
+                imageAlt="Clean home living room"
                 content={
                     <>
-                        <p>Moving is stressful enough without worrying about your security deposit. Property managers are notoriously strict, looking for dust on baseboards, grease in ovens, and spots on windows.</p>
-                        <p>Our professional move-out cleaning service is designed around the standard inspection checklists used by major real estate agencies. We don't just "clean" - we restore the property to its original condition, handling the time-consuming deep cleaning tasks that most tenants dread.</p>
-                        <p className="font-semibold text-white">Result: You get your money back, and your landlord stays happy.</p>
+                        <p>Living in a clean home is essential for well-being, but finding the time to maintain it can be challenging. Our standard residential cleaning is more than just a surface wipe-down.</p>
+                        <p>We treat every home with the same attention to detail we use for high-end turnovers. From the baseboards to the bathroom fixtures, we ensure your living space is not just clean, but truly restored and welcoming.</p>
+                        <p className="font-semibold text-white">Result: A fresh, healthy home environment for you and your family.</p>
                     </>
                 }
             />
@@ -100,7 +106,7 @@ export const MoveOutCleaning = () => {
             {/* Pricing CTA */}
             <section className="py-20 text-center">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-white mb-8">Ready to secure your deposit?</h2>
+                    <h2 className="text-3xl font-bold text-white mb-8">Ready for a cleaner home?</h2>
                     <Button
                         size="lg"
                         variant="outline"
@@ -113,3 +119,4 @@ export const MoveOutCleaning = () => {
         </div>
     );
 };
+

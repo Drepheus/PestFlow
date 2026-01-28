@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
@@ -37,7 +38,7 @@ export const HomePage = () => {
         }
     };
 
-    const handlePricingClick = (serviceType: 'move-out' | 'airbnb') => {
+    const handlePricingClick = (serviceType: 'standard' | 'airbnb') => {
         resetBooking();
         updateState({ serviceType });
         navigate('/booking');
@@ -54,9 +55,11 @@ export const HomePage = () => {
 
     return (
         <div className="flex flex-col">
-
-
-
+            <Helmet>
+                <title>ReadyCleans | Phoenix's #1 Standard & Airbnb Cleaning</title>
+                <meta name="description" content="Professional standard residential cleaning and Airbnb turnover services in Phoenix, AZ. Flat-rate pricing, easy online booking, and 100% satisfaction guarantee." />
+                <link rel="canonical" href="https://readycleans.space/" />
+            </Helmet>
 
             {/* Dark Hero Section */}
             <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-[#09090b]">
@@ -125,7 +128,7 @@ export const HomePage = () => {
                                 transition={{ delay: 0.2 }}
                                 className="text-lg text-gray-400 mb-8 max-w-lg leading-relaxed"
                             >
-                                Move-Out & Airbnb Turnover specialists. Flat pricing. Book online. No phone calls required.
+                                Standard & Airbnb Turnover specialists. Flat pricing. Book online. No phone calls required.
                             </motion.p>
 
                             <motion.div
@@ -251,8 +254,8 @@ export const HomePage = () => {
                             <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-700 transition-all shadow-md group-hover:scale-105 group-hover:bg-emerald-100">
                                 <CheckCircle2 size={24} />
                             </div>
-                            <h3 className="text-lg font-bold text-gray-900 mb-2">Inspection Ready</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">We know standard move-out checklists inside and out. Get your deposit back.</p>
+                            <h3 className="text-lg font-bold text-gray-900 mb-2">Pristine Results</h3>
+                            <p className="text-sm text-gray-500 leading-relaxed">High-quality standard cleaning for your home or apartment. 100% satisfaction guaranteed.</p>
                         </motion.div>
                         <motion.div {...fadeInUp} transition={{ duration: 0.6, delay: 0.2 }} className="text-center group">
                             <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-700 transition-all shadow-md group-hover:scale-105 group-hover:bg-gray-100">
@@ -366,9 +369,9 @@ export const HomePage = () => {
                     <div className="grid md:grid-cols-3 gap-6">
                         <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-green-500/50 transition-colors flex flex-col items-center text-center md:items-start md:text-left">
                             <Home className="text-green-500 mb-4" size={32} />
-                            <h3 className="text-xl font-bold text-white mb-2">Renters Moving Out</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">Homeowners & Renters</h3>
                             <p className="text-gray-400 text-sm">
-                                Secure your full security deposit. We handle the checklist so you can focus on moving.
+                                Professional residential cleaning for your daily life. We handle the chores so you can focus on what matters.
                             </p>
                         </Card>
                         <Card className="bg-[#18181b] border-[#27272a] p-8 hover:border-blue-500/50 transition-colors flex flex-col items-center text-center md:items-start md:text-left">
@@ -435,9 +438,9 @@ export const HomePage = () => {
                         <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gray-200 z-0"></div>
 
                         {[
-                            { step: "1", title: "Select Service", desc: "Choose Move-Out or Airbnb, plus your unit size ($125+)." },
+                            { step: "1", title: "Select Service", desc: "Choose Standard or Airbnb, plus your unit size ($80+)." },
                             { step: "2", title: "We Clean", desc: "Our team brings all supplies and equipment. Lockbox or keypad entry supported." },
-                            { step: "3", title: "Fresh Start", desc: "Walk into a spotless unit ready for inspection or the next guest." }
+                            { step: "3", title: "Fresh Start", desc: "Walk into a spotless home ready for you or your guests." }
                         ].map((step, i) => (
                             <motion.div
                                 key={i}
@@ -466,7 +469,7 @@ export const HomePage = () => {
 
                     <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
 
-                        {/* Move Out */}
+                        {/* Standard Clean */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -478,22 +481,24 @@ export const HomePage = () => {
                                 className="bg-[#18181b] border-[#27272a] h-full flex flex-col hover:border-gray-600 transition-colors"
                             >
                                 <div className="mb-6 text-center">
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Move-Out Clean</h3>
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Standard Clean</h3>
                                     <div className="flex items-baseline justify-center gap-1">
                                         <span className="text-gray-400">from</span>
-                                        <span className="text-4xl font-bold text-white">$125</span>
+                                        <span className="text-4xl font-bold text-white">$80</span>
                                     </div>
-                                    <p className="text-gray-500 mt-4 text-sm">For tenants and property managers.</p>
+                                    <p className="text-gray-500 mt-4 text-sm">For homeowners and residents.</p>
                                 </div>
                                 <div className="space-y-4 flex-1 max-w-sm mx-auto w-full">
                                     <div className="h-px bg-[#27272a] my-4"></div>
-                                    <div className="flex justify-between text-gray-300 text-sm"><span>Studio</span> <span className="font-bold text-white">$125</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>Studio / 1 Bath</span> <span className="font-bold text-white">$80</span></div>
                                     <div className="flex justify-between text-gray-300 text-sm"><span>1 Bed / 1 Bath</span> <span className="font-bold text-white">$150</span></div>
-                                    <div className="flex justify-between text-gray-300 text-sm"><span>2 Bed / 1 Bath</span> <span className="font-bold text-white">$200</span></div>
                                     <div className="flex justify-between text-gray-300 text-sm"><span>2 Bed / 2 Bath</span> <span className="font-bold text-white">$250</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>3 Bed / 2 Bath</span> <span className="font-bold text-white">$300</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>4 Bed / 3 Bath</span> <span className="font-bold text-white">$400</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>5 Bed / 3 Bath</span> <span className="font-bold text-white">$450</span></div>
                                 </div>
                                 <div className="mt-8">
-                                    <Button fullWidth variant="outline" onClick={() => handlePricingClick('move-out')}>Book Move-Out</Button>
+                                    <Button fullWidth variant="outline" onClick={() => handlePricingClick('standard')}>Book Standard</Button>
                                 </div>
                             </Card>
                         </motion.div>
@@ -527,10 +532,12 @@ export const HomePage = () => {
                                 </div>
                                 <div className="space-y-4 flex-1 max-w-sm mx-auto w-full">
                                     <div className="h-px bg-green-500/20 my-4"></div>
-                                    <div className="flex justify-between text-gray-300 text-sm"><span>Studio</span> <span className="font-bold text-white">$80</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>Studio / 1 Bath</span> <span className="font-bold text-white">$80</span></div>
                                     <div className="flex justify-between text-gray-300 text-sm"><span>1 Bed / 1 Bath</span> <span className="font-bold text-white">$130</span></div>
-                                    <div className="flex justify-between text-gray-300 text-sm"><span>2 Bed / 1 Bath</span> <span className="font-bold text-white">$180</span></div>
                                     <div className="flex justify-between text-gray-300 text-sm"><span>2 Bed / 2 Bath</span> <span className="font-bold text-white">$250</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>3 Bed / 2 Bath</span> <span className="font-bold text-white">$300</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>4 Bed / 3 Bath</span> <span className="font-bold text-white">$400</span></div>
+                                    <div className="flex justify-between text-gray-300 text-sm"><span>5 Bed / 3 Bath</span> <span className="font-bold text-white">$450</span></div>
                                 </div>
                                 <div className="mt-8">
                                     <Button fullWidth variant="accent" onClick={() => handlePricingClick('airbnb')}>Book Turnover</Button>

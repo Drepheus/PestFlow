@@ -44,7 +44,7 @@ export const Footer = () => {
                             <span className="font-bold text-2xl tracking-tight text-white">ReadyCleans</span>
                         </Link>
                         <p className="text-sm leading-relaxed text-gray-500">
-                            Phoenix's premier Move-Out & Airbnb Turnover service. We deliver inspection-ready results with flat-rate pricing and zero hassle.
+                            Phoenix's premier Standard & Airbnb Turnover service. We deliver pristine results with flat-rate pricing and zero hassle.
                         </p>
                         <div className="flex gap-4">
                             <a href="#" className="w-10 h-10 rounded-full bg-[#18181b] border border-[#27272a] flex items-center justify-center hover:border-green-500 hover:text-green-500 transition-colors">
@@ -77,7 +77,7 @@ export const Footer = () => {
                     <div>
                         <h3 className="text-white font-bold mb-6">Services</h3>
                         <ul className="space-y-4">
-                            <li><Link to="/services/move-out" className="hover:text-green-500 transition-colors">Move-Out Cleaning</Link></li>
+                            <li><Link to="/services/standard" className="hover:text-green-500 transition-colors">Standard Cleaning</Link></li>
                             <li><Link to="/services/airbnb" className="hover:text-green-500 transition-colors">Airbnb Turnover</Link></li>
                             <li><Link to="/services/deep-clean" className="hover:text-green-500 transition-colors">Deep Cleaning</Link></li>
                             <li><Link to="/services/appliance" className="hover:text-green-500 transition-colors">Appliance Cleaning</Link></li>
