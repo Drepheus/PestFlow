@@ -39,6 +39,7 @@ export const Navbar = () => {
                             <a href="/#plans" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Pricing</a>
                             <a href="/#how" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">How It Works</a>
                             <Link to="/blog" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Blog</Link>
+                            {/* <Link to="/portal" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">My Portal</Link> */}
                             <Link to="/contact" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">Support</Link>
                         </>
                     )}
@@ -85,6 +86,7 @@ export const Navbar = () => {
                         <div className="flex flex-col p-6 gap-6">
                             <a href="/#plans" className="text-lg font-medium text-gray-300">Pricing</a>
                             <a href="/#how" className="text-lg font-medium text-gray-300">How It Works</a>
+                            {/* <Link to="/portal" className="text-lg font-medium text-gray-300">My Portal</Link> */}
                             <Link to="/booking">
                                 <Button fullWidth variant="accent">Book Now</Button>
                             </Link>

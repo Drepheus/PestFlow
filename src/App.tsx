@@ -16,6 +16,7 @@ import { DeepCleaning } from './pages/services/DeepCleaning';
 import { ApplianceCleaning } from './pages/services/ApplianceCleaning';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
+import { CustomerPortal } from './pages/CustomerPortal';
 import { AIAssistant } from './components/AIAssistant';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
               <Route path="/services/appliance" element={<ApplianceCleaning />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:id" element={<BlogPostPage />} />
+              <Route path="/portal" element={<CustomerPortal />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="*" element={<NotFoundPage />} />

@@ -39,7 +39,7 @@ export const AIAssistant = () => {
             // Get conversation history (excluding the initial greeting and the message just sent)
             const history = messages.filter(msg => msg.id !== '1');
 
-            const response = await fetch('http://localhost:4242/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
